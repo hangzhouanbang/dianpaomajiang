@@ -1,0 +1,67 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/qipai_dianpaomajiang
+      
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          zk-nodes: localhost:2181
+          minPartitionCount: 1
+          autoCreateTopics: true
+          autoAddPartitions: false
+        bindings:
+          dianpaoMajiangGame:
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
+          dianpaoMajiangResult:
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
+      bindings:
+        dianpaoMajiangGame:
+          destination: dianpaoMajiangGame
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        dianpaoMajiangResult:
+          destination: dianpaoMajiangResult
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        members:
+          destination: members
+          group: qipai-dianpaomajiang
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        dianpaoGameRoom:
+          destination: dianpaoGameRoom
+          group: qipai-dianpaomajiang
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+      
+server:
+  port: 2004
+
+filepath:
+  snapshotFileBasePath: /data/app/qipai_dianpaomajiang/server1/snapshot
+  jFileBasePath: /data/app/qipai_dianpaomajiang/server1/journal
