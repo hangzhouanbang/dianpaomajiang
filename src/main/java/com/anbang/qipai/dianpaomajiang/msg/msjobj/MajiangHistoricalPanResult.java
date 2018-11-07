@@ -11,14 +11,14 @@ public class MajiangHistoricalPanResult {
 	private String gameId;
 	private int no;// 盘数
 	private long finishTime;// 完成时间
-	private List<FangpaoMajiangPanPlayerResultMO> playerResultList;
+	private List<DianpaoMajiangPanPlayerResultMO> playerResultList;
 
 	public MajiangHistoricalPanResult(PanResultDbo dbo, MajiangGameDbo majiangGameDbo) {
 		gameId = majiangGameDbo.getId();
 		List<DianpaoMajiangPanPlayerResultDbo> list = dbo.getPlayerResultList();
 		if (list != null) {
 			playerResultList = new ArrayList<>(list.size());
-			list.forEach((panPlayerResult) -> playerResultList.add(new FangpaoMajiangPanPlayerResultMO(
+			list.forEach((panPlayerResult) -> playerResultList.add(new DianpaoMajiangPanPlayerResultMO(
 					majiangGameDbo.findPlayer(panPlayerResult.getPlayerId()), panPlayerResult)));
 		}
 		no = dbo.getPanNo();
@@ -49,11 +49,11 @@ public class MajiangHistoricalPanResult {
 		this.finishTime = finishTime;
 	}
 
-	public List<FangpaoMajiangPanPlayerResultMO> getPlayerResultList() {
+	public List<DianpaoMajiangPanPlayerResultMO> getPlayerResultList() {
 		return playerResultList;
 	}
 
-	public void setPlayerResultList(List<FangpaoMajiangPanPlayerResultMO> playerResultList) {
+	public void setPlayerResultList(List<DianpaoMajiangPanPlayerResultMO> playerResultList) {
 		this.playerResultList = playerResultList;
 	}
 

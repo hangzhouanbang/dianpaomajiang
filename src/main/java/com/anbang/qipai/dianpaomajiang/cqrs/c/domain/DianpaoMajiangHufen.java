@@ -8,20 +8,15 @@ package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
  */
 public class DianpaoMajiangHufen {
 	private boolean hu;// 普通放炮胡
-	private boolean zimoHu;// 每人输2分；
-	private boolean qiangganghu;// 抢杠胡：2分；
-	private boolean qiduihu;// 七对：4分；
-	private boolean pengpenghu;// 碰碰胡：4分；
-	private boolean qingyise;// 清一色：4分；
-	private boolean gangshangkaihua;// 杠上开花：4分；
-	private boolean danzhangdiao;// 单张吊：6分；
-	private boolean caishendiao;// 财神吊8分；
-	private boolean tianhu;// 天胡：8分；
-	private boolean dihu;// 地胡：8分；
-	private boolean qiduiqingyise;// 七对清一色：10分
-	private boolean qingyisepengpenghu;// 清一色碰碰胡：10分
-	private boolean qingyisegangkai;// 清一色杠开：10分
-	private boolean qingyisedanzhangdiao;// 清一色单张吊：10分
+	private boolean zimoHu;// 自摸胡；
+	private boolean qiangganghu;// 抢杠胡；
+	private boolean pengpenghu;// 碰碰胡；
+	private boolean gangshangkaihua;// 杠上开花；
+	private boolean danzhangdiao;// 单张吊；
+	private boolean sancaishen;// 三财神有胡型；
+	private boolean wuhuxing;// 三财神无胡型；
+	private boolean tianhu;// 天胡；
+	private boolean dihu;// 地胡；
 	private int value;
 
 	public void calculate() {
@@ -32,43 +27,46 @@ public class DianpaoMajiangHufen {
 		if (zimoHu) {
 			hushu = 2;
 		}
-		if (qiangganghu) {
+		if (gangshangkaihua) {
 			hushu = 2;
 		}
-		if (qiduihu) {
+		if (pengpenghu && !zimoHu) {
+			hushu = 2;
+		}
+		if (qiangganghu) {
+			hushu = 3;
+		}
+		if (wuhuxing) {
+			hushu = 3;
+		}
+		if (pengpenghu && zimoHu) {
 			hushu = 4;
 		}
-		if (pengpenghu) {
+		if (danzhangdiao && !zimoHu) {
 			hushu = 4;
 		}
-		if (qingyise) {
-			hushu = 4;
-		}
-		if (gangshangkaihua) {
-			hushu = 4;
-		}
-		if (danzhangdiao) {
+		if (danzhangdiao && zimoHu) {
 			hushu = 6;
 		}
-		if (caishendiao) {
-			hushu = 8;
+		if (sancaishen && zimoHu) {
+			hushu = 6;
 		}
 		if (tianhu) {
-			hushu = 8;
+			hushu = 6;
 		}
 		if (dihu) {
+			hushu = 6;
+		}
+		if (pengpenghu && gangshangkaihua) {
+			hushu = 6;
+		}
+		if (danzhangdiao && gangshangkaihua) {
 			hushu = 8;
 		}
-		if (qiduiqingyise) {
-			hushu = 10;
+		if (sancaishen && pengpenghu && zimoHu) {
+			hushu = 8;
 		}
-		if (qingyisepengpenghu) {
-			hushu = 10;
-		}
-		if (qingyisegangkai) {
-			hushu = 10;
-		}
-		if (qingyisedanzhangdiao) {
+		if (sancaishen && gangshangkaihua && zimoHu) {
 			hushu = 10;
 		}
 		value = hushu;
@@ -76,6 +74,22 @@ public class DianpaoMajiangHufen {
 
 	public int jiesuan(int delta) {
 		return value += delta;
+	}
+
+	public boolean isHu() {
+		return hu;
+	}
+
+	public void setHu(boolean hu) {
+		this.hu = hu;
+	}
+
+	public boolean isZimoHu() {
+		return zimoHu;
+	}
+
+	public void setZimoHu(boolean zimoHu) {
+		this.zimoHu = zimoHu;
 	}
 
 	public boolean isQiangganghu() {
@@ -86,28 +100,12 @@ public class DianpaoMajiangHufen {
 		this.qiangganghu = qiangganghu;
 	}
 
-	public boolean isQiduihu() {
-		return qiduihu;
-	}
-
-	public void setQiduihu(boolean qiduihu) {
-		this.qiduihu = qiduihu;
-	}
-
 	public boolean isPengpenghu() {
 		return pengpenghu;
 	}
 
 	public void setPengpenghu(boolean pengpenghu) {
 		this.pengpenghu = pengpenghu;
-	}
-
-	public boolean isQingyise() {
-		return qingyise;
-	}
-
-	public void setQingyise(boolean qingyise) {
-		this.qingyise = qingyise;
 	}
 
 	public boolean isGangshangkaihua() {
@@ -126,12 +124,20 @@ public class DianpaoMajiangHufen {
 		this.danzhangdiao = danzhangdiao;
 	}
 
-	public boolean isCaishendiao() {
-		return caishendiao;
+	public boolean isSancaishen() {
+		return sancaishen;
 	}
 
-	public void setCaishendiao(boolean caishendiao) {
-		this.caishendiao = caishendiao;
+	public void setSancaishen(boolean sancaishen) {
+		this.sancaishen = sancaishen;
+	}
+
+	public boolean isWuhuxing() {
+		return wuhuxing;
+	}
+
+	public void setWuhuxing(boolean wuhuxing) {
+		this.wuhuxing = wuhuxing;
 	}
 
 	public boolean isTianhu() {
@@ -150,60 +156,12 @@ public class DianpaoMajiangHufen {
 		this.dihu = dihu;
 	}
 
-	public boolean isQiduiqingyise() {
-		return qiduiqingyise;
-	}
-
-	public void setQiduiqingyise(boolean qiduiqingyise) {
-		this.qiduiqingyise = qiduiqingyise;
-	}
-
-	public boolean isQingyisepengpenghu() {
-		return qingyisepengpenghu;
-	}
-
-	public void setQingyisepengpenghu(boolean qingyisepengpenghu) {
-		this.qingyisepengpenghu = qingyisepengpenghu;
-	}
-
-	public boolean isQingyisegangkai() {
-		return qingyisegangkai;
-	}
-
-	public void setQingyisegangkai(boolean qingyisegangkai) {
-		this.qingyisegangkai = qingyisegangkai;
-	}
-
-	public boolean isQingyisedanzhangdiao() {
-		return qingyisedanzhangdiao;
-	}
-
-	public void setQingyisedanzhangdiao(boolean qingyisedanzhangdiao) {
-		this.qingyisedanzhangdiao = qingyisedanzhangdiao;
-	}
-
 	public int getValue() {
 		return value;
 	}
 
 	public void setValue(int value) {
 		this.value = value;
-	}
-
-	public boolean isZimoHu() {
-		return zimoHu;
-	}
-
-	public void setZimoHu(boolean zimoHu) {
-		this.zimoHu = zimoHu;
-	}
-
-	public boolean isHu() {
-		return hu;
-	}
-
-	public void setHu(boolean hu) {
-		this.hu = hu;
 	}
 
 }

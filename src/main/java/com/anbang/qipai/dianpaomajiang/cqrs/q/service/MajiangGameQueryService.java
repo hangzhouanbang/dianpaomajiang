@@ -71,9 +71,9 @@ public class MajiangGameQueryService {
 		gameFinishVoteDbo.setGameId(majiangGame.getId());
 		gameFinishVoteDboDao.save(gameFinishVoteDbo);
 
-		DianpaoMajiangJuResult fangpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGame.getJuResult();
-		if (fangpaoMajiangJuResult != null) {
-			JuResultDbo juResultDbo = new JuResultDbo(majiangGame.getId(), null, fangpaoMajiangJuResult);
+		DianpaoMajiangJuResult dianpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGame.getJuResult();
+		if (dianpaoMajiangJuResult != null) {
+			JuResultDbo juResultDbo = new JuResultDbo(majiangGame.getId(), null, dianpaoMajiangJuResult);
 			juResultDboDao.save(juResultDbo);
 		}
 
@@ -93,9 +93,9 @@ public class MajiangGameQueryService {
 		MajiangGameDbo majiangGameDbo = new MajiangGameDbo(majiangGameValueObject, playerInfoMap);
 		majiangGameDboDao.save(majiangGameDbo);
 
-		DianpaoMajiangJuResult fangpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGameValueObject.getJuResult();
-		if (fangpaoMajiangJuResult != null) {
-			JuResultDbo juResultDbo = new JuResultDbo(majiangGameValueObject.getId(), null, fangpaoMajiangJuResult);
+		DianpaoMajiangJuResult dianpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGameValueObject.getJuResult();
+		if (dianpaoMajiangJuResult != null) {
+			JuResultDbo juResultDbo = new JuResultDbo(majiangGameValueObject.getId(), null, dianpaoMajiangJuResult);
 			juResultDboDao.save(juResultDbo);
 		}
 	}
@@ -110,9 +110,9 @@ public class MajiangGameQueryService {
 		MajiangGameDbo majiangGameDbo = new MajiangGameDbo(majiangGameValueObject, playerInfoMap);
 		majiangGameDboDao.save(majiangGameDbo);
 
-		DianpaoMajiangJuResult fangpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGameValueObject.getJuResult();
-		if (fangpaoMajiangJuResult != null) {
-			JuResultDbo juResultDbo = new JuResultDbo(majiangGameValueObject.getId(), null, fangpaoMajiangJuResult);
+		DianpaoMajiangJuResult dianpaoMajiangJuResult = (DianpaoMajiangJuResult) majiangGameValueObject.getJuResult();
+		if (dianpaoMajiangJuResult != null) {
+			JuResultDbo juResultDbo = new JuResultDbo(majiangGameValueObject.getId(), null, dianpaoMajiangJuResult);
 			juResultDboDao.save(juResultDbo);
 		}
 	}

@@ -1,12 +1,17 @@
 package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
 
+import java.util.List;
+import java.util.Set;
+
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.listener.DianpaoMajiangPengGangActionStatisticsListener;
 import com.dml.majiang.ju.Ju;
+import com.dml.majiang.pai.MajiangPai;
 import com.dml.majiang.pan.Pan;
 import com.dml.majiang.pan.frame.PanActionFrame;
 import com.dml.majiang.player.MajiangPlayer;
 import com.dml.majiang.player.action.MajiangPlayerAction;
 import com.dml.majiang.player.action.MajiangPlayerActionType;
+import com.dml.majiang.player.action.da.MajiangDaAction;
 import com.dml.majiang.player.action.gang.MajiangGangAction;
 import com.dml.majiang.player.action.guo.MajiangGuoAction;
 import com.dml.majiang.player.action.guo.MajiangPlayerGuoActionUpdater;
@@ -27,7 +32,27 @@ public class DianpaoMajiangGuoActionUpdater implements MajiangPlayerGuoActionUpd
 		PanActionFrame latestPanActionFrame = currentPan.findNotGuoLatestActionFrame();
 		MajiangPlayerAction action = latestPanActionFrame.getAction();
 		if (action.getType().equals(MajiangPlayerActionType.mo)) {// 过的是我摸牌之后的胡,杠
+			MajiangPai gangmoShoupai = player.getGangmoShoupai();
 			// 那要我打牌
+			if (player.getActionCandidates().isEmpty()) {
+				// 啥也不能干，那只能打出牌
+				/*
+				 * 头风：抓牌后，手牌中单独一张的风牌字牌需要优先打出
+				 */
+				List<MajiangPai> fangruShoupaiList = player.getFangruShoupaiList();
+				Set<MajiangPai> guipaiTypeSet = player.getGuipaiTypeSet();
+
+				for (MajiangPai pai : fangruShoupaiList) {
+					if (!guipaiTypeSet.contains(pai) && MajiangPai.isZipai(pai)) {
+						if (!gangmoShoupai.equals(pai) && player.getShoupaiCalculator().count(pai) == 1) {
+							player.addActionCandidate(new MajiangDaAction(player.getId(), pai));
+						}
+					}
+				}
+				if (!guipaiTypeSet.contains(gangmoShoupai) && player.getShoupaiCalculator().count(gangmoShoupai) == 0) {
+					player.addActionCandidate(new MajiangDaAction(player.getId(), gangmoShoupai));
+				}
+			}
 			if (player.getActionCandidates().isEmpty()) {
 				player.generateDaActions();
 			}

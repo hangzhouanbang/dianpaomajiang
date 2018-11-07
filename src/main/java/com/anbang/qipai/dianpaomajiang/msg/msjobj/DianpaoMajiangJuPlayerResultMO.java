@@ -3,7 +3,7 @@ package com.anbang.qipai.dianpaomajiang.msg.msjobj;
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.DianpaoMajiangJuPlayerResult;
 import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGamePlayerDbo;
 
-public class FangpaoMajiangJuPlayerResultMO {
+public class DianpaoMajiangJuPlayerResultMO {
 
 	private String playerId;
 	private String nickname;
@@ -14,7 +14,7 @@ public class FangpaoMajiangJuPlayerResultMO {
 	private int fangPaoCount;
 	private int totalScore;
 
-	public FangpaoMajiangJuPlayerResultMO(DianpaoMajiangJuPlayerResult juPlayerResult,
+	public DianpaoMajiangJuPlayerResultMO(DianpaoMajiangJuPlayerResult juPlayerResult,
 			MajiangGamePlayerDbo majiangGamePlayerDbo) {
 		playerId = majiangGamePlayerDbo.getPlayerId();
 		nickname = majiangGamePlayerDbo.getNickname();
@@ -26,7 +26,7 @@ public class FangpaoMajiangJuPlayerResultMO {
 		totalScore = juPlayerResult.getTotalScore();
 	}
 
-	public FangpaoMajiangJuPlayerResultMO(MajiangGamePlayerDbo majiangGamePlayerDbo) {
+	public DianpaoMajiangJuPlayerResultMO(MajiangGamePlayerDbo majiangGamePlayerDbo) {
 		playerId = majiangGamePlayerDbo.getPlayerId();
 		nickname = majiangGamePlayerDbo.getNickname();
 		headimgurl = majiangGamePlayerDbo.getHeadimgurl();
@@ -37,7 +37,7 @@ public class FangpaoMajiangJuPlayerResultMO {
 		totalScore = 0;
 	}
 
-	public FangpaoMajiangJuPlayerResultMO() {
+	public DianpaoMajiangJuPlayerResultMO() {
 
 	}
 

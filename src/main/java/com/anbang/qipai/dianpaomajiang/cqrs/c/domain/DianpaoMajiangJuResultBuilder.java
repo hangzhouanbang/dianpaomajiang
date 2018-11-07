@@ -13,29 +13,29 @@ public class DianpaoMajiangJuResultBuilder implements JuResultBuilder {
 
 	@Override
 	public JuResult buildJuResult(Ju ju) {
-		DianpaoMajiangJuResult fangpaoMajiangJuResult = new DianpaoMajiangJuResult();
-		fangpaoMajiangJuResult.setFinishedPanCount(ju.countFinishedPan());
+		DianpaoMajiangJuResult dianpaoMajiangJuResult = new DianpaoMajiangJuResult();
+		dianpaoMajiangJuResult.setFinishedPanCount(ju.countFinishedPan());
 		if (ju.countFinishedPan() > 0) {
 			Map<String, DianpaoMajiangJuPlayerResult> juPlayerResultMap = new HashMap<>();
 			for (PanResult panResult : ju.getFinishedPanResultList()) {
-				DianpaoMajiangPanResult fangpaoMajiangPanResult = (DianpaoMajiangPanResult) panResult;
-				for (DianpaoMajiangPanPlayerResult panPlayerResult : fangpaoMajiangPanResult.getPanPlayerResultList()) {
+				DianpaoMajiangPanResult dianpaoMajiangPanResult = (DianpaoMajiangPanResult) panResult;
+				for (DianpaoMajiangPanPlayerResult panPlayerResult : dianpaoMajiangPanResult.getPanPlayerResultList()) {
 					DianpaoMajiangJuPlayerResult juPlayerResult = juPlayerResultMap.get(panPlayerResult.getPlayerId());
 					if (juPlayerResult == null) {
 						juPlayerResult = new DianpaoMajiangJuPlayerResult();
 						juPlayerResult.setPlayerId(panPlayerResult.getPlayerId());
 						juPlayerResultMap.put(panPlayerResult.getPlayerId(), juPlayerResult);
 					}
-					if (fangpaoMajiangPanResult.ifPlayerHu(panPlayerResult.getPlayerId())) {
+					if (dianpaoMajiangPanResult.ifPlayerHu(panPlayerResult.getPlayerId())) {
 						juPlayerResult.increaseHuCount();
 					}
 					juPlayerResult.increaseCaishenCount(
-							fangpaoMajiangPanResult.playerGuipaiCount(panPlayerResult.getPlayerId()));
-					if (fangpaoMajiangPanResult.ifPlayerHu(panPlayerResult.getPlayerId())
-							&& fangpaoMajiangPanResult.isZimo()) {
+							dianpaoMajiangPanResult.playerGuipaiCount(panPlayerResult.getPlayerId()));
+					if (dianpaoMajiangPanResult.ifPlayerHu(panPlayerResult.getPlayerId())
+							&& dianpaoMajiangPanResult.isZimo()) {
 						juPlayerResult.increaseZiMoCount();
 					}
-					String dianPaoPlayerId = fangpaoMajiangPanResult.getDianpaoPlayerId();
+					String dianPaoPlayerId = dianpaoMajiangPanResult.getDianpaoPlayerId();
 					if (dianPaoPlayerId != null && dianPaoPlayerId.equals(panPlayerResult.getPlayerId())) {
 						juPlayerResult.increaseFangPaoCount();
 					}
@@ -62,11 +62,11 @@ public class DianpaoMajiangJuResultBuilder implements JuResultBuilder {
 					}
 				}
 			}
-			fangpaoMajiangJuResult.setDatuhaoId(datuhao.getPlayerId());
-			fangpaoMajiangJuResult.setDayingjiaId(dayingjia.getPlayerId());
-			fangpaoMajiangJuResult.setPlayerResultList(new ArrayList<>(juPlayerResultMap.values()));
+			dianpaoMajiangJuResult.setDatuhaoId(datuhao.getPlayerId());
+			dianpaoMajiangJuResult.setDayingjiaId(dayingjia.getPlayerId());
+			dianpaoMajiangJuResult.setPlayerResultList(new ArrayList<>(juPlayerResultMap.values()));
 		}
-		return fangpaoMajiangJuResult;
+		return dianpaoMajiangJuResult;
 	}
 
 }

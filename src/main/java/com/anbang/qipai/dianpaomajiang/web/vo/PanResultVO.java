@@ -9,7 +9,7 @@ import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.PanResultDbo;
 
 public class PanResultVO {
 
-	private List<FangpaoMajiangPanPlayerResultVO> playerResultList;
+	private List<DianpaoMajiangPanPlayerResultVO> playerResultList;
 
 	private boolean hu;
 
@@ -26,10 +26,10 @@ public class PanResultVO {
 		if (list != null) {
 			playerResultList = new ArrayList<>(list.size());
 			list.forEach((panPlayerResult) -> playerResultList
-					.add(new FangpaoMajiangPanPlayerResultVO(majiangGameDbo.findPlayer(panPlayerResult.getPlayerId()),
+					.add(new DianpaoMajiangPanPlayerResultVO(majiangGameDbo.findPlayer(panPlayerResult.getPlayerId()),
 							dbo.getZhuangPlayerId(), dbo.isZimo(), dbo.getDianpaoPlayerId(), panPlayerResult)));
 		}
-		for (FangpaoMajiangPanPlayerResultVO playerResult : playerResultList) {
+		for (DianpaoMajiangPanPlayerResultVO playerResult : playerResultList) {
 			if (playerResult.getNiaoPaiList().size() > 0) {
 				setNiaoPaiList(playerResult.getNiaoPaiList());
 			}
@@ -40,7 +40,7 @@ public class PanResultVO {
 		paiCount = dbo.getPanActionFrame().getPanAfterAction().getAvaliablePaiList().getPaiCount();
 	}
 
-	public List<FangpaoMajiangPanPlayerResultVO> getPlayerResultList() {
+	public List<DianpaoMajiangPanPlayerResultVO> getPlayerResultList() {
 		return playerResultList;
 	}
 

@@ -18,7 +18,9 @@ import com.dml.majiang.player.action.guo.DoNothingGuoActionProcessor;
 import com.dml.majiang.player.action.hu.PlayerHuAndClearAllActionHuActionUpdater;
 import com.dml.majiang.player.action.initial.ZhuangMoPaiInitialActionUpdater;
 import com.dml.majiang.player.action.listener.comprehensive.DianpaoDihuOpportunityDetector;
+import com.dml.majiang.player.action.listener.comprehensive.GuoGangBuGangStatisticsListener;
 import com.dml.majiang.player.action.listener.comprehensive.GuoHuBuHuStatisticsListener;
+import com.dml.majiang.player.action.listener.comprehensive.GuoPengBuPengStatisticsListener;
 import com.dml.majiang.player.action.peng.HuFirstBuPengActionProcessor;
 import com.dml.majiang.player.menfeng.RandomMustHasDongPlayersMenFengDeterminer;
 import com.dml.majiang.player.shoupai.gouxing.NoDanpaiOneDuiziGouXingPanHu;
@@ -34,7 +36,7 @@ import com.dml.mpgame.game.player.PlayerPlaying;
 public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 	private boolean dianpao;
 	private boolean dapao;
-	private boolean quzhongfa;
+	private boolean quzhongfabai;
 	private boolean zhuaniao;
 	private int panshu;
 	private int renshu;
@@ -50,7 +52,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		ju.setZhuangDeterminerForFirstPan(new MenFengDongZhuangDeterminer());
 		ju.setZhuangDeterminerForNextPan(new MenFengDongZhuangDeterminer());
 
-		ju.setAvaliablePaiFiller(new QuZhongFaRandomAvaliablePaiFiller(currentTime + 2, quzhongfa));
+		ju.setAvaliablePaiFiller(new QuZhongFaRandomAvaliablePaiFiller(currentTime + 2, quzhongfabai));
 		ju.setGuipaiDeterminer(new RandomGuipaiDeterminer());
 		ju.setFaPaiStrategy(new DianpaoMajiangFaPaiStrategy(16));
 
@@ -61,7 +63,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		DianpaoMajiangPanResultBuilder dianpaoMajiangPanResultBuilder = new DianpaoMajiangPanResultBuilder();
 		dianpaoMajiangPanResultBuilder.setDapao(dapao);
 		dianpaoMajiangPanResultBuilder.setDianpao(dianpao);
-		dianpaoMajiangPanResultBuilder.setQuzhongfa(quzhongfa);
+		dianpaoMajiangPanResultBuilder.setQuzhongfabai(quzhongfabai);
 		dianpaoMajiangPanResultBuilder.setZhuaniao(zhuaniao);
 		ju.setCurrentPanResultBuilder(dianpaoMajiangPanResultBuilder);
 
@@ -71,7 +73,9 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		ju.setMoActionProcessor(new DianpaoMajiangMoActionProcessor());
 		ju.setMoActionUpdater(new DianpaoMajiangMoActionUpdater());
 		ju.setDaActionProcessor(new DachushoupaiDaActionProcessor());
-		ju.setDaActionUpdater(new DianpaoMajiangDaActionUpdater());
+		DianpaoMajiangDaActionUpdater daUpdater = new DianpaoMajiangDaActionUpdater();
+		daUpdater.setDianpao(dianpao);
+		ju.setDaActionUpdater(daUpdater);
 		ju.setChiActionProcessor(new PengganghuFirstChiActionProcessor());
 		ju.setChiActionUpdater(new DianpaoMajiangChiActionUpdater());
 		ju.setPengActionProcessor(new HuFirstBuPengActionProcessor());
@@ -87,6 +91,8 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		ju.addActionStatisticsListener(new DianpaoMajiangLastMoActionPlayerRecorder());
 		ju.addActionStatisticsListener(new DianpaoDihuOpportunityDetector());
 		ju.addActionStatisticsListener(new GuoHuBuHuStatisticsListener());
+		ju.addActionStatisticsListener(new GuoPengBuPengStatisticsListener());
+		ju.addActionStatisticsListener(new GuoGangBuGangStatisticsListener());
 
 		// 开始第一盘
 		ju.startFirstPan(allPlayerIds());
@@ -106,9 +112,9 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 
 		if (state.name().equals(WaitingNextPan.name) || state.name().equals(Finished.name)) {// 盘结束了
 			DianpaoMajiangPanResult panResult = (DianpaoMajiangPanResult) ju.findLatestFinishedPanResult();
-			for (DianpaoMajiangPanPlayerResult fangpaoMajiangPanPlayerResult : panResult.getPanPlayerResultList()) {
-				playeTotalScoreMap.put(fangpaoMajiangPanPlayerResult.getPlayerId(),
-						fangpaoMajiangPanPlayerResult.getTotalScore());
+			for (DianpaoMajiangPanPlayerResult dianpaoMajiangPanPlayerResult : panResult.getPanPlayerResultList()) {
+				playeTotalScoreMap.put(dianpaoMajiangPanPlayerResult.getPlayerId(),
+						dianpaoMajiangPanPlayerResult.getTotalScore());
 			}
 			result.setPanResult(panResult);
 			if (state.name().equals(Finished.name)) {// 局结束了
@@ -190,12 +196,12 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		this.dianpao = dianpao;
 	}
 
-	public boolean isQuzhongfa() {
-		return quzhongfa;
+	public boolean isQuzhongfabai() {
+		return quzhongfabai;
 	}
 
-	public void setQuzhongfa(boolean quzhongfa) {
-		this.quzhongfa = quzhongfa;
+	public void setQuzhongfabai(boolean quzhongfabai) {
+		this.quzhongfabai = quzhongfabai;
 	}
 
 	public boolean isDapao() {

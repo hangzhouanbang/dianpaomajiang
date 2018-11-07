@@ -14,30 +14,30 @@ public class JuResultVO {
 	private String datuhaoId;
 	private int panshu;
 	private int finishedPanCount;
-	private List<FangpaoMajiangJuPlayerResultVO> playerResultList;
+	private List<DianpaoMajiangJuPlayerResultVO> playerResultList;
 
 	private PanResultVO lastPanResult;
 	private long finishTime;
 
 	public JuResultVO(JuResultDbo juResultDbo, MajiangGameDbo majiangGameDbo) {
 		gameId = juResultDbo.getGameId();
-		DianpaoMajiangJuResult fangpaoMajiangJuResult = juResultDbo.getJuResult();
-		dayingjiaId = fangpaoMajiangJuResult.getDayingjiaId();
-		datuhaoId = fangpaoMajiangJuResult.getDatuhaoId();
+		DianpaoMajiangJuResult dianpaoMajiangJuResult = juResultDbo.getJuResult();
+		dayingjiaId = dianpaoMajiangJuResult.getDayingjiaId();
+		datuhaoId = dianpaoMajiangJuResult.getDatuhaoId();
 		if (juResultDbo.getLastPanResult() != null) {
 			lastPanResult = new PanResultVO(juResultDbo.getLastPanResult(), majiangGameDbo);
 		}
 		finishTime = juResultDbo.getFinishTime();
 		this.panshu = majiangGameDbo.getPanshu();
-		finishedPanCount = fangpaoMajiangJuResult.getFinishedPanCount();
+		finishedPanCount = dianpaoMajiangJuResult.getFinishedPanCount();
 		playerResultList = new ArrayList<>();
-		if (fangpaoMajiangJuResult.getPlayerResultList() != null) {
-			fangpaoMajiangJuResult.getPlayerResultList()
-					.forEach((juPlayerResult) -> playerResultList.add(new FangpaoMajiangJuPlayerResultVO(juPlayerResult,
+		if (dianpaoMajiangJuResult.getPlayerResultList() != null) {
+			dianpaoMajiangJuResult.getPlayerResultList()
+					.forEach((juPlayerResult) -> playerResultList.add(new DianpaoMajiangJuPlayerResultVO(juPlayerResult,
 							majiangGameDbo.findPlayer(juPlayerResult.getPlayerId()))));
 		} else {
 			majiangGameDbo.getPlayers().forEach((majiangGamePlayerDbo) -> playerResultList
-					.add(new FangpaoMajiangJuPlayerResultVO(majiangGamePlayerDbo)));
+					.add(new DianpaoMajiangJuPlayerResultVO(majiangGamePlayerDbo)));
 		}
 	}
 
@@ -57,11 +57,11 @@ public class JuResultVO {
 		this.datuhaoId = datuhaoId;
 	}
 
-	public List<FangpaoMajiangJuPlayerResultVO> getPlayerResultList() {
+	public List<DianpaoMajiangJuPlayerResultVO> getPlayerResultList() {
 		return playerResultList;
 	}
 
-	public void setPlayerResultList(List<FangpaoMajiangJuPlayerResultVO> playerResultList) {
+	public void setPlayerResultList(List<DianpaoMajiangJuPlayerResultVO> playerResultList) {
 		this.playerResultList = playerResultList;
 	}
 

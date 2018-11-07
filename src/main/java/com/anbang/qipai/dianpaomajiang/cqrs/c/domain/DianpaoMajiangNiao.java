@@ -18,7 +18,7 @@ public class DianpaoMajiangNiao {
 
 	}
 
-	public DianpaoMajiangNiao(boolean hongzhongcaishen, boolean zhuaniao, int niaoshu) {
+	public DianpaoMajiangNiao(boolean quzhongfabai, boolean zhuaniao, int niaoshu) {
 		zhuaPai = new ArrayList<>();
 		if (zhuaniao) {
 			Set<MajiangPai> notPlaySet = new HashSet<>();
@@ -30,13 +30,9 @@ public class DianpaoMajiangNiao {
 			notPlaySet.add(MajiangPai.lan);
 			notPlaySet.add(MajiangPai.zhu);
 			notPlaySet.add(MajiangPai.ju);
-			notPlaySet.add(MajiangPai.dongfeng);
-			notPlaySet.add(MajiangPai.nanfeng);
-			notPlaySet.add(MajiangPai.xifeng);
-			notPlaySet.add(MajiangPai.beifeng);
-			notPlaySet.add(MajiangPai.facai);
-			notPlaySet.add(MajiangPai.baiban);
-			if (!hongzhongcaishen) {
+			if (quzhongfabai) {
+				notPlaySet.add(MajiangPai.facai);
+				notPlaySet.add(MajiangPai.baiban);
 				notPlaySet.add(MajiangPai.hongzhong);
 			}
 			MajiangPai[] allMajiangPaiArray = MajiangPai.values();

@@ -50,7 +50,7 @@ public class GamePlayWsController extends TextWebSocketHandler {
 	private DianpaoMajiangGameMsgService gameMsgService;
 
 	@Autowired
-	private DianpaoMajiangResultMsgService fangpaoMajiangResultMsgService;
+	private DianpaoMajiangResultMsgService dianpaoMajiangResultMsgService;
 
 	private ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -96,7 +96,7 @@ public class GamePlayWsController extends TextWebSocketHandler {
 				JuResultDbo juResultDbo = majiangPlayQueryService.findJuResultDbo(gameId);
 				MajiangGameDbo majiangGameDbo = majiangGameQueryService.findMajiangGameDboById(gameId);
 				MajiangHistoricalJuResult juResult = new MajiangHistoricalJuResult(juResultDbo, majiangGameDbo);
-				fangpaoMajiangResultMsgService.recordJuResult(juResult);
+				dianpaoMajiangResultMsgService.recordJuResult(juResult);
 				gameMsgService.gameFinished(gameId);
 			}
 

@@ -15,14 +15,14 @@ public class QuZhongFaRandomAvaliablePaiFiller implements AvaliablePaiFiller {
 
 	private long seed;
 
-	private boolean quzhongfa;
+	private boolean quzhongfabai;
 
 	public QuZhongFaRandomAvaliablePaiFiller() {
 	}
 
-	public QuZhongFaRandomAvaliablePaiFiller(long seed, boolean quzhongfa) {
+	public QuZhongFaRandomAvaliablePaiFiller(long seed, boolean quzhongfabai) {
 		this.seed = seed;
-		this.quzhongfa = quzhongfa;
+		this.quzhongfabai = quzhongfabai;
 	}
 
 	@Override
@@ -36,9 +36,10 @@ public class QuZhongFaRandomAvaliablePaiFiller implements AvaliablePaiFiller {
 		notPlaySet.add(MajiangPai.lan);
 		notPlaySet.add(MajiangPai.zhu);
 		notPlaySet.add(MajiangPai.ju);
-		if (quzhongfa) {
+		if (quzhongfabai) {
 			notPlaySet.add(MajiangPai.hongzhong);
 			notPlaySet.add(MajiangPai.facai);
+			notPlaySet.add(MajiangPai.baiban);
 		}
 		MajiangPai[] allMajiangPaiArray = MajiangPai.values();
 		List<MajiangPai> playPaiTypeList = new ArrayList<>();
@@ -70,12 +71,12 @@ public class QuZhongFaRandomAvaliablePaiFiller implements AvaliablePaiFiller {
 		this.seed = seed;
 	}
 
-	public boolean isQuzhongfa() {
-		return quzhongfa;
+	public boolean isQuzhongfabai() {
+		return quzhongfabai;
 	}
 
-	public void setQuzhongfa(boolean quzhongfa) {
-		this.quzhongfa = quzhongfa;
+	public void setQuzhongfabai(boolean quzhongfabai) {
+		this.quzhongfabai = quzhongfabai;
 	}
 
 }

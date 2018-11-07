@@ -11,9 +11,11 @@ import com.dml.majiang.player.action.mo.MajiangMoAction;
 import com.dml.majiang.player.shoupai.GuipaiDangPai;
 import com.dml.majiang.player.shoupai.PaiXing;
 import com.dml.majiang.player.shoupai.ShoupaiCalculator;
+import com.dml.majiang.player.shoupai.ShoupaiDuiziZu;
 import com.dml.majiang.player.shoupai.ShoupaiGangziZu;
 import com.dml.majiang.player.shoupai.ShoupaiKeziZu;
 import com.dml.majiang.player.shoupai.ShoupaiPaiXing;
+import com.dml.majiang.player.shoupai.ShoupaiShunziZu;
 import com.dml.majiang.player.shoupai.ShoupaiWithGuipaiDangGouXingZu;
 import com.dml.majiang.player.shoupai.gouxing.GouXing;
 import com.dml.majiang.player.shoupai.gouxing.GouXingPanHu;
@@ -74,12 +76,18 @@ public class DianpaoMajiangJiesuanCalculator {
 			DianpaoMajiangHufen bestHuFen = null;
 			ShoupaiPaiXing bestHuShoupaiPaiXing = null;
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
+				if (isValid(shoupaiPaiXing, false)) {
+					continue;
+				}
 				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, true, false, false,
 						shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 				if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 					bestHuFen = hufen;
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
 				}
+			}
+			if (bestHuFen == null) {
+				return null;
 			}
 			return new DianpaoMajiangHu(bestHuShoupaiPaiXing, bestHuFen);
 		} else {// 不成胡
@@ -104,12 +112,18 @@ public class DianpaoMajiangJiesuanCalculator {
 			DianpaoMajiangHufen bestHuFen = null;
 			ShoupaiPaiXing bestHuShoupaiPaiXing = null;
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
+				if (isValid(shoupaiPaiXing, false)) {
+					continue;
+				}
 				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, false, false, couldDihu,
 						shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 				if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 					bestHuFen = hufen;
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
 				}
+			}
+			if (bestHuFen == null) {
+				return null;
 			}
 			return new DianpaoMajiangHu(bestHuShoupaiPaiXing, bestHuFen);
 		} else {// 不成胡
@@ -142,8 +156,6 @@ public class DianpaoMajiangJiesuanCalculator {
 			ShoupaixingWuguanJiesuancanshu shoupaixingWuguanJiesuancanshu, ShoupaiPaiXing shoupaiPaiXing) {
 		DianpaoMajiangHufen hufen = new DianpaoMajiangHufen();
 		if (hu) {
-			boolean qingyise = shoupaixingWuguanJiesuancanshu.isQingyise();
-			boolean qidui = shoupaiPaiXing.getDuiziList().size() == 7;
 			boolean pengpenghu = shoupaiPaiXing.getDuiziList().size() == 1
 					&& shoupaixingWuguanJiesuancanshu.getChichupaiZuCount() == 0 && shoupaiPaiXing.countShunzi() == 0;
 			boolean danzhangdiao = (shoupaixingWuguanJiesuancanshu.getFangruShoupaiCount()
@@ -158,6 +170,9 @@ public class DianpaoMajiangJiesuanCalculator {
 			if (couldTianhu) {// 天胡
 				hufen.setTianhu(couldTianhu);
 			}
+			if (shoupaixingWuguanJiesuancanshu.getCaishenShu() == 3) {// 三财神
+				hufen.setSancaishen(true);
+			}
 			if (couldDihu) {// 地胡
 				hufen.setDihu(couldDihu);
 			}
@@ -166,30 +181,9 @@ public class DianpaoMajiangJiesuanCalculator {
 			}
 			if (danzhangdiao) {
 				hufen.setDanzhangdiao(true);// 单张吊
-				if (shoupaixingWuguanJiesuancanshu.getCaishenShu() == 1) {// 财神吊
-					hufen.setCaishendiao(true);
-				}
 			}
 			if (pengpenghu) {// 碰碰胡
 				hufen.setPengpenghu(true);
-			}
-			if (qidui) {// 七对胡
-				hufen.setQiduihu(true);
-				if (qingyise) {// 七对清一色
-					hufen.setQiduiqingyise(true);
-				}
-			}
-			if (qingyise) {// 清一色胡
-				hufen.setQingyise(true);
-				if (pengpenghu) {// 清一色碰碰胡
-					hufen.setQingyisepengpenghu(true);
-				}
-				if (gangkaiHu) {// 清一色杠开
-					hufen.setQingyisegangkai(true);
-				}
-				if (danzhangdiao) {// 清一色单张吊
-					hufen.setQingyisedanzhangdiao(true);
-				}
 			}
 		}
 		hufen.calculate();
@@ -446,5 +440,28 @@ public class DianpaoMajiangJiesuanCalculator {
 			huPaiShoupaiPaiXingList.addAll(shoupaiPaiXingList);
 		}
 		return huPaiShoupaiPaiXingList;
+	}
+
+	/**
+	 * 财神吊将：财神吊将胡牌时，只能自摸胡这个的将牌 。注意：财神在111和123的框架下只能存在一个
+	 */
+	private static boolean isValid(ShoupaiPaiXing shoupaiPaiXing, boolean zimo) {
+		ShoupaiDuiziZu duizi = shoupaiPaiXing.findDuiziZuHasLastActionPai();
+		if (!duizi.yuanPaiFenZu() && !zimo) {
+			return false;
+		}
+		List<ShoupaiKeziZu> keziList = shoupaiPaiXing.getKeziList();
+		for (ShoupaiKeziZu kezi : keziList) {
+			if (kezi.countDangPai(GuipaiDangPai.dangType) > 1) {
+				return false;
+			}
+		}
+		List<ShoupaiShunziZu> shunziList = shoupaiPaiXing.getShunziList();
+		for (ShoupaiShunziZu shunzi : shunziList) {
+			if (shunzi.countDangPai(GuipaiDangPai.dangType) > 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

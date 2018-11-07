@@ -13,7 +13,7 @@ public class MajiangGameDbo {
 	private String id;// 就是gameid
 	private int panshu;
 	private int renshu;
-	private boolean quzhongfa;
+	private boolean quzhongfabai;
 	private boolean dapao;
 	private boolean dianpao;
 	private boolean zhuaniao;
@@ -28,7 +28,7 @@ public class MajiangGameDbo {
 		id = majiangGame.getId();
 		panshu = majiangGame.getPanshu();
 		renshu = majiangGame.getRenshu();
-		quzhongfa = majiangGame.isQuzhongfa();
+		quzhongfabai = majiangGame.isQuzhongfabai();
 		dapao = majiangGame.isDapao();
 		dianpao = majiangGame.isDianpao();
 		zhuaniao = majiangGame.isZhuaniao();
@@ -88,12 +88,12 @@ public class MajiangGameDbo {
 		this.renshu = renshu;
 	}
 
-	public boolean isQuzhongfa() {
-		return quzhongfa;
+	public boolean isQuzhongfabai() {
+		return quzhongfabai;
 	}
 
-	public void setQuzhongfa(boolean quzhongfa) {
-		this.quzhongfa = quzhongfa;
+	public void setQuzhongfabai(boolean quzhongfabai) {
+		this.quzhongfabai = quzhongfabai;
 	}
 
 	public boolean isDapao() {

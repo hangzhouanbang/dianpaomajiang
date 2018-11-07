@@ -3,7 +3,7 @@ package com.anbang.qipai.dianpaomajiang.web.vo;
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.DianpaoMajiangJuPlayerResult;
 import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGamePlayerDbo;
 
-public class FangpaoMajiangJuPlayerResultVO {
+public class DianpaoMajiangJuPlayerResultVO {
 
 	private String playerId;
 	private String nickname;
@@ -14,7 +14,7 @@ public class FangpaoMajiangJuPlayerResultVO {
 	private int fangPaoCount;
 	private int totalScore;
 
-	public FangpaoMajiangJuPlayerResultVO(DianpaoMajiangJuPlayerResult juPlayerResult,
+	public DianpaoMajiangJuPlayerResultVO(DianpaoMajiangJuPlayerResult juPlayerResult,
 			MajiangGamePlayerDbo majiangGamePlayerDbo) {
 		playerId = majiangGamePlayerDbo.getPlayerId();
 		nickname = majiangGamePlayerDbo.getNickname();
@@ -26,7 +26,7 @@ public class FangpaoMajiangJuPlayerResultVO {
 		totalScore = juPlayerResult.getTotalScore();
 	}
 
-	public FangpaoMajiangJuPlayerResultVO(MajiangGamePlayerDbo majiangGamePlayerDbo) {
+	public DianpaoMajiangJuPlayerResultVO(MajiangGamePlayerDbo majiangGamePlayerDbo) {
 		playerId = majiangGamePlayerDbo.getPlayerId();
 		nickname = majiangGamePlayerDbo.getNickname();
 		headimgurl = majiangGamePlayerDbo.getHeadimgurl();

@@ -9,44 +9,14 @@ import com.dml.majiang.player.MajiangPlayer;
  *
  */
 public class ShoupaixingWuguanJiesuancanshu {
-	private boolean allXushupaiInSameCategory;
-	private boolean hasZipai;
-	private boolean qingyise;
 	private int caishenShu;
 	private int chichupaiZuCount;
 	private int fangruShoupaiCount;
 
 	public ShoupaixingWuguanJiesuancanshu(MajiangPlayer player) {
-		allXushupaiInSameCategory = player.allXushupaiInSameCategory();
-		hasZipai = player.hasZipai();
-		qingyise = (allXushupaiInSameCategory && !hasZipai);
 		caishenShu = player.countGuipai();
 		chichupaiZuCount = player.countChichupaiZu();
 		fangruShoupaiCount = player.getFangruShoupaiList().size();
-	}
-
-	public boolean isAllXushupaiInSameCategory() {
-		return allXushupaiInSameCategory;
-	}
-
-	public void setAllXushupaiInSameCategory(boolean allXushupaiInSameCategory) {
-		this.allXushupaiInSameCategory = allXushupaiInSameCategory;
-	}
-
-	public boolean isHasZipai() {
-		return hasZipai;
-	}
-
-	public void setHasZipai(boolean hasZipai) {
-		this.hasZipai = hasZipai;
-	}
-
-	public boolean isQingyise() {
-		return qingyise;
-	}
-
-	public void setQingyise(boolean qingyise) {
-		this.qingyise = qingyise;
 	}
 
 	public int getChichupaiZuCount() {

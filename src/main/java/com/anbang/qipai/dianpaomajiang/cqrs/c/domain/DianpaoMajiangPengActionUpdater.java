@@ -1,10 +1,15 @@
 package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
 
+import java.util.List;
+import java.util.Set;
+
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.listener.DianpaoMajiangPengGangActionStatisticsListener;
 import com.dml.majiang.ju.Ju;
+import com.dml.majiang.pai.MajiangPai;
 import com.dml.majiang.pan.Pan;
 import com.dml.majiang.player.MajiangPlayer;
 import com.dml.majiang.player.action.MajiangPlayerAction;
+import com.dml.majiang.player.action.da.MajiangDaAction;
 import com.dml.majiang.player.action.peng.MajiangPengAction;
 import com.dml.majiang.player.action.peng.MajiangPlayerPengActionUpdater;
 
@@ -37,7 +42,22 @@ public class DianpaoMajiangPengActionUpdater implements MajiangPlayerPengActionU
 		} else {
 			currentPan.clearAllPlayersActionCandidates();
 			pengGangRecordListener.updateForNextLun();// 清空动作缓存
+			if (player.getActionCandidates().isEmpty()) {
+				// 啥也不能干，那只能打出牌
+				/*
+				 * 头风：抓牌后，手牌中单独一张的风牌字牌需要优先打出
+				 */
+				List<MajiangPai> fangruShoupaiList = player.getFangruShoupaiList();
+				Set<MajiangPai> guipaiTypeSet = player.getGuipaiTypeSet();
 
+				for (MajiangPai pai : fangruShoupaiList) {
+					if (!guipaiTypeSet.contains(pai) && MajiangPai.isZipai(pai)) {
+						if (player.getShoupaiCalculator().count(pai) == 1) {
+							player.addActionCandidate(new MajiangDaAction(player.getId(), pai));
+						}
+					}
+				}
+			}
 			if (player.getActionCandidates().isEmpty()) {
 				player.generateDaActions();
 			}

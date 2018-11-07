@@ -3,7 +3,7 @@ package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
 import com.dml.majiang.player.MajiangPlayer;
 
 public class DianpaoMajiangPao {
-	private int hongzhongShu;
+	private int caishenShu;
 	private int totalscore;// 总得分
 	private int value;// 个人结算分
 
@@ -12,17 +12,15 @@ public class DianpaoMajiangPao {
 	}
 
 	public DianpaoMajiangPao(MajiangPlayer player) {
-		hongzhongShu = player.countGuipai();
+		caishenShu = player.countGuipai();
 	}
 
-	public void calculate(boolean dapao, boolean sipaofanbei, int playerCount) {
+	public void calculate(boolean dapao, int playerCount) {
 		int pao = 0;
 		if (dapao) {
-			pao = hongzhongShu;
-			if (sipaofanbei) {
-				if (pao == 4) {
-					pao = 2 * pao;
-				}
+			pao = caishenShu;
+			if (pao == 3) {
+				pao = 2 * pao;
 			}
 		}
 		value = pao;
@@ -33,12 +31,12 @@ public class DianpaoMajiangPao {
 		return totalscore += delta;
 	}
 
-	public int getHongzhongShu() {
-		return hongzhongShu;
+	public int getCaishenShu() {
+		return caishenShu;
 	}
 
-	public void setHongzhongShu(int hongzhongShu) {
-		this.hongzhongShu = hongzhongShu;
+	public void setCaishenShu(int caishenShu) {
+		this.caishenShu = caishenShu;
 	}
 
 	public int getValue() {

@@ -3,12 +3,12 @@ package com.anbang.qipai.dianpaomajiang.msg.msjobj;
 import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.DianpaoMajiangPanPlayerResultDbo;
 import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGamePlayerDbo;
 
-public class FangpaoMajiangPanPlayerResultMO {
+public class DianpaoMajiangPanPlayerResultMO {
 	private String playerId;// 玩家id
 	private String nickname;// 玩家昵称
 	private int score;// 一盘总分
 
-	public FangpaoMajiangPanPlayerResultMO(MajiangGamePlayerDbo gamePlayerDbo,
+	public DianpaoMajiangPanPlayerResultMO(MajiangGamePlayerDbo gamePlayerDbo,
 			DianpaoMajiangPanPlayerResultDbo panPlayerResult) {
 		playerId = gamePlayerDbo.getPlayerId();
 		nickname = gamePlayerDbo.getNickname();

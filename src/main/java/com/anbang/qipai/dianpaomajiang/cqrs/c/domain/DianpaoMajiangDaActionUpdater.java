@@ -1,6 +1,7 @@
 package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.dml.majiang.ju.Ju;
@@ -12,6 +13,7 @@ import com.dml.majiang.player.action.da.MajiangPlayerDaActionUpdater;
 import com.dml.majiang.player.action.hu.MajiangHuAction;
 import com.dml.majiang.player.action.listener.comprehensive.DianpaoDihuOpportunityDetector;
 import com.dml.majiang.player.action.listener.comprehensive.GuoHuBuHuStatisticsListener;
+import com.dml.majiang.player.action.listener.comprehensive.GuoPengBuPengStatisticsListener;
 import com.dml.majiang.player.action.mo.LundaoMopai;
 import com.dml.majiang.player.action.mo.MajiangMoAction;
 import com.dml.majiang.player.shoupai.gouxing.GouXingPanHu;
@@ -23,6 +25,8 @@ import com.dml.majiang.player.shoupai.gouxing.GouXingPanHu;
  *
  */
 public class DianpaoMajiangDaActionUpdater implements MajiangPlayerDaActionUpdater {
+
+	private boolean dianpao;
 
 	@Override
 	public void updateActions(MajiangDaAction daAction, Ju ju) {
@@ -42,17 +46,24 @@ public class DianpaoMajiangDaActionUpdater implements MajiangPlayerDaActionUpdat
 		// daAction.getPai());
 		GuoHuBuHuStatisticsListener guoHuBuHuStatisticsListener = ju.getActionStatisticsListenerManager()
 				.findListener(GuoHuBuHuStatisticsListener.class);
+		GuoPengBuPengStatisticsListener guoPengBuPengStatisticsListener = ju.getActionStatisticsListenerManager()
+				.findListener(GuoPengBuPengStatisticsListener.class);
+
 		Set<String> canNotHuPlayers = guoHuBuHuStatisticsListener.getCanNotHuPlayers();
+		Map<String, MajiangPai> canNotPengPlayersPaiMap = guoPengBuPengStatisticsListener.getCanNotPengPlayersPaiMap();
+
 		while (true) {
 			if (!xiajiaPlayer.getId().equals(daAction.getActionPlayerId())) {
-				if (!canNotHuPlayers.contains(xiajiaPlayer.getId())) {
-					// 其他的可以碰杠胡
-					List<MajiangPai> fangruShoupaiList = xiajiaPlayer.getFangruShoupaiList();
-					if (fangruShoupaiList.size() != 2) {
+				// 其他的可以碰杠胡
+				List<MajiangPai> fangruShoupaiList = xiajiaPlayer.getFangruShoupaiList();
+				if (fangruShoupaiList.size() != 2) {
+					if (!canNotPengPlayersPaiMap.containsKey(xiajiaPlayer.getId())
+							|| !canNotPengPlayersPaiMap.get(xiajiaPlayer.getId()).equals(daAction.getPai())) {
 						xiajiaPlayer.tryPengAndGenerateCandidateAction(daAction.getActionPlayerId(), daAction.getPai());
 					}
-					xiajiaPlayer.tryGangdachuAndGenerateCandidateAction(daAction.getActionPlayerId(),
-							daAction.getPai());
+				}
+				xiajiaPlayer.tryGangdachuAndGenerateCandidateAction(daAction.getActionPlayerId(), daAction.getPai());
+				if (!canNotHuPlayers.contains(xiajiaPlayer.getId()) && dianpao) {
 					// 点炮胡
 					GouXingPanHu gouXingPanHu = ju.getGouXingPanHu();
 					// 先把这张牌放入计算器
@@ -83,9 +94,14 @@ public class DianpaoMajiangDaActionUpdater implements MajiangPlayerDaActionUpdat
 			xiajiaPlayer = currentPan.findXiajia(daPlayer);
 			xiajiaPlayer.addActionCandidate(new MajiangMoAction(xiajiaPlayer.getId(), new LundaoMopai()));
 		}
+	}
 
-		// TODO 接着做
+	public boolean isDianpao() {
+		return dianpao;
+	}
 
+	public void setDianpao(boolean dianpao) {
+		this.dianpao = dianpao;
 	}
 
 }

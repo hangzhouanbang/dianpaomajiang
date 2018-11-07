@@ -133,9 +133,9 @@ public class MajiangPlayQueryService {
 		panActionFrameDboDao.save(panActionFrameDbo);
 
 		// 盘出结果的话要记录结果
-		DianpaoMajiangPanResult fangpaoMajiangPanResult = majiangActionResult.getPanResult();
-		if (fangpaoMajiangPanResult != null) {
-			PanResultDbo panResultDbo = new PanResultDbo(gameId, fangpaoMajiangPanResult);
+		DianpaoMajiangPanResult dianpaoMajiangPanResult = majiangActionResult.getPanResult();
+		if (dianpaoMajiangPanResult != null) {
+			PanResultDbo panResultDbo = new PanResultDbo(gameId, dianpaoMajiangPanResult);
 			panResultDbo.setPanActionFrame(panActionFrame);
 			panResultDboDao.save(panResultDbo);
 			if (majiangActionResult.getJuResult() != null) {// 一切都结束了
