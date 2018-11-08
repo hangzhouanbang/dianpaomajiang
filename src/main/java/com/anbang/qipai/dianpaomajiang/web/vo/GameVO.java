@@ -23,6 +23,7 @@ public class GameVO {
 	private boolean dapao;
 	private boolean quzhongfabai;
 	private boolean zhuaniao;
+	private int niaoshu;
 	private List<MajiangGamePlayerVO> playerList;
 	private String state;// 原来是 waitingStart, playing, waitingNextPan, finished
 
@@ -34,6 +35,7 @@ public class GameVO {
 		dapao = majiangGameDbo.isDapao();
 		quzhongfabai = majiangGameDbo.isQuzhongfabai();
 		zhuaniao = majiangGameDbo.isZhuaniao();
+		niaoshu = majiangGameDbo.getNiaoshu();
 		playerList = new ArrayList<>();
 		majiangGameDbo.getPlayers().forEach((dbo) -> playerList.add(new MajiangGamePlayerVO(dbo)));
 		String sn = majiangGameDbo.getState().name();
@@ -59,6 +61,14 @@ public class GameVO {
 			state = "waitingStart";
 		} else {
 		}
+	}
+
+	public int getNiaoshu() {
+		return niaoshu;
+	}
+
+	public void setNiaoshu(int niaoshu) {
+		this.niaoshu = niaoshu;
 	}
 
 	public String getId() {

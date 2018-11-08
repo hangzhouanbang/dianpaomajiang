@@ -18,9 +18,9 @@ import com.dml.majiang.player.action.guo.DoNothingGuoActionProcessor;
 import com.dml.majiang.player.action.hu.PlayerHuAndClearAllActionHuActionUpdater;
 import com.dml.majiang.player.action.initial.ZhuangMoPaiInitialActionUpdater;
 import com.dml.majiang.player.action.listener.comprehensive.DianpaoDihuOpportunityDetector;
-import com.dml.majiang.player.action.listener.comprehensive.GuoGangBuGangStatisticsListener;
 import com.dml.majiang.player.action.listener.comprehensive.GuoHuBuHuStatisticsListener;
 import com.dml.majiang.player.action.listener.comprehensive.GuoPengBuPengStatisticsListener;
+import com.dml.majiang.player.action.listener.gang.GuoGangBuGangStatisticsListener;
 import com.dml.majiang.player.action.peng.HuFirstBuPengActionProcessor;
 import com.dml.majiang.player.menfeng.RandomMustHasDongPlayersMenFengDeterminer;
 import com.dml.majiang.player.shoupai.gouxing.NoDanpaiOneDuiziGouXingPanHu;
@@ -38,6 +38,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 	private boolean dapao;
 	private boolean quzhongfabai;
 	private boolean zhuaniao;
+	private int niaoshu;
 	private int panshu;
 	private int renshu;
 	private Ju ju;
@@ -65,6 +66,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		dianpaoMajiangPanResultBuilder.setDianpao(dianpao);
 		dianpaoMajiangPanResultBuilder.setQuzhongfabai(quzhongfabai);
 		dianpaoMajiangPanResultBuilder.setZhuaniao(zhuaniao);
+		dianpaoMajiangPanResultBuilder.setNiaoshu(niaoshu);
 		ju.setCurrentPanResultBuilder(dianpaoMajiangPanResultBuilder);
 
 		ju.setJuFinishiDeterminer(new FixedPanNumbersJuFinishiDeterminer(panshu));
@@ -186,6 +188,14 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 	@Override
 	public MajiangGameValueObject toValueObject() {
 		return new MajiangGameValueObject(this);
+	}
+
+	public int getNiaoshu() {
+		return niaoshu;
+	}
+
+	public void setNiaoshu(int niaoshu) {
+		this.niaoshu = niaoshu;
 	}
 
 	public boolean isDianpao() {

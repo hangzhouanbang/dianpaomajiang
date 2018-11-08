@@ -21,6 +21,7 @@ import com.dml.majiang.player.chupaizu.PengchuPaiZu;
 public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 
 	private boolean zhuaniao;
+	private int niaoshu;
 	private boolean dianpao;
 	private boolean dapao;
 	private boolean quzhongfabai;
@@ -46,7 +47,7 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 		List<String> playerIdList = currentPan.sortedPlayerIdList();
 		List<DianpaoMajiangPanPlayerResult> playerResultList = new ArrayList<>();
 		// 鸟分
-		DianpaoMajiangNiao niao = new DianpaoMajiangNiao(quzhongfabai, zhuaniao, 4);
+		DianpaoMajiangNiao niao = new DianpaoMajiangNiao(quzhongfabai, zhuaniao, niaoshu);
 		niao.calculate();
 		// 放炮玩家id
 		String dianPaoPlayerId = "";
@@ -589,6 +590,14 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 
 	public void setQuzhongfabai(boolean quzhongfabai) {
 		this.quzhongfabai = quzhongfabai;
+	}
+
+	public int getNiaoshu() {
+		return niaoshu;
+	}
+
+	public void setNiaoshu(int niaoshu) {
+		this.niaoshu = niaoshu;
 	}
 
 }

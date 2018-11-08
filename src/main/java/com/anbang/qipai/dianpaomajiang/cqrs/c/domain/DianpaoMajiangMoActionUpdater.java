@@ -9,7 +9,7 @@ import com.dml.majiang.pan.Pan;
 import com.dml.majiang.player.MajiangPlayer;
 import com.dml.majiang.player.action.da.MajiangDaAction;
 import com.dml.majiang.player.action.hu.MajiangHuAction;
-import com.dml.majiang.player.action.listener.comprehensive.GuoGangBuGangStatisticsListener;
+import com.dml.majiang.player.action.listener.gang.GuoGangBuGangStatisticsListener;
 import com.dml.majiang.player.action.mo.MajiangMoAction;
 import com.dml.majiang.player.action.mo.MajiangPlayerMoActionUpdater;
 import com.dml.majiang.player.shoupai.gouxing.GouXingPanHu;

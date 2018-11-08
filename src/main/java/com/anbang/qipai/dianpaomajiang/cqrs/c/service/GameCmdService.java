@@ -7,7 +7,7 @@ import com.dml.mpgame.game.GameValueObject;
 public interface GameCmdService {
 
 	MajiangGameValueObject newMajiangGame(String gameId, String playerId, Integer panshu, Integer renshu,
-			Boolean dianpao, Boolean dapao, Boolean quzhongfa, Boolean quzhongfabai);
+			Boolean dianpao, Boolean dapao, Boolean quzhongfabai, Boolean zhuaniao, Integer niaoshu);
 
 	MajiangGameValueObject joinGame(String playerId, String gameId) throws Exception;
 
