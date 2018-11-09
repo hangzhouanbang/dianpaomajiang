@@ -25,6 +25,7 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 	private boolean dianpao;
 	private boolean dapao;
 	private boolean quzhongfabai;
+	private boolean qingyise;
 
 	@Override
 	public PanResult buildCurrentPanResult(Ju ju, long panFinishTime) {
@@ -598,6 +599,14 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 
 	public void setNiaoshu(int niaoshu) {
 		this.niaoshu = niaoshu;
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
 	}
 
 }

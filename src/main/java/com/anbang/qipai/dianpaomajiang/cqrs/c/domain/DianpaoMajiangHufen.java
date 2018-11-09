@@ -9,6 +9,8 @@ package com.anbang.qipai.dianpaomajiang.cqrs.c.domain;
 public class DianpaoMajiangHufen {
 	private boolean hu;// 普通放炮胡
 	private boolean zimoHu;// 自摸胡；
+	private boolean qingyise;// 清一色
+	private boolean hunyise;// 混一色
 	private boolean qiangganghu;// 抢杠胡；
 	private boolean pengpenghu;// 碰碰胡；
 	private boolean gangshangkaihua;// 杠上开花；
@@ -39,6 +41,9 @@ public class DianpaoMajiangHufen {
 		if (wuhuxing) {
 			hushu = 3;
 		}
+		if (hunyise) {
+			hushu = 3;
+		}
 		if (pengpenghu && zimoHu) {
 			hushu = 4;
 		}
@@ -49,6 +54,9 @@ public class DianpaoMajiangHufen {
 			hushu = 6;
 		}
 		if (sancaishen && zimoHu) {
+			hushu = 6;
+		}
+		if (qingyise) {
 			hushu = 6;
 		}
 		if (tianhu) {
@@ -74,6 +82,14 @@ public class DianpaoMajiangHufen {
 
 	public int jiesuan(int delta) {
 		return value += delta;
+	}
+
+	public boolean isHunyise() {
+		return hunyise;
+	}
+
+	public void setHunyise(boolean hunyise) {
+		this.hunyise = hunyise;
 	}
 
 	public boolean isHu() {
@@ -162,6 +178,14 @@ public class DianpaoMajiangHufen {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
 	}
 
 }

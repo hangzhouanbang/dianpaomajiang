@@ -9,14 +9,54 @@ import com.dml.majiang.player.MajiangPlayer;
  *
  */
 public class ShoupaixingWuguanJiesuancanshu {
+	private boolean allXushupaiInSameCategory;
+	private boolean hasZipai;
+	private boolean qingyise;
+	private boolean hunyise;
 	private int caishenShu;
 	private int chichupaiZuCount;
 	private int fangruShoupaiCount;
 
 	public ShoupaixingWuguanJiesuancanshu(MajiangPlayer player) {
+		allXushupaiInSameCategory = player.allXushupaiInSameCategory();
+		hasZipai = player.hasZipai();
+		qingyise = (allXushupaiInSameCategory && !hasZipai);
+		hunyise = (allXushupaiInSameCategory && hasZipai);
 		caishenShu = player.countGuipai();
 		chichupaiZuCount = player.countChichupaiZu();
 		fangruShoupaiCount = player.getFangruShoupaiList().size();
+	}
+
+	public boolean isHunyise() {
+		return hunyise;
+	}
+
+	public void setHunyise(boolean hunyise) {
+		this.hunyise = hunyise;
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
+	}
+
+	public boolean isAllXushupaiInSameCategory() {
+		return allXushupaiInSameCategory;
+	}
+
+	public void setAllXushupaiInSameCategory(boolean allXushupaiInSameCategory) {
+		this.allXushupaiInSameCategory = allXushupaiInSameCategory;
+	}
+
+	public boolean isHasZipai() {
+		return hasZipai;
+	}
+
+	public void setHasZipai(boolean hasZipai) {
+		this.hasZipai = hasZipai;
 	}
 
 	public int getChichupaiZuCount() {

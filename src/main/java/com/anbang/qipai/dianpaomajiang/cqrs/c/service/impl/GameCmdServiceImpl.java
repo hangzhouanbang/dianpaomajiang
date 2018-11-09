@@ -30,7 +30,7 @@ public class GameCmdServiceImpl extends CmdServiceBase implements GameCmdService
 
 	@Override
 	public MajiangGameValueObject newMajiangGame(String gameId, String playerId, Integer panshu, Integer renshu,
-			Boolean dianpao, Boolean dapao, Boolean quzhongfabai, Boolean zhuaniao, Integer niaoshu) {
+			Boolean dianpao, Boolean dapao, Boolean quzhongfabai, Boolean zhuaniao, Integer niaoshu, Boolean qingyise) {
 		GameServer gameServer = singletonEntityRepository.getEntity(GameServer.class);
 
 		MajiangGame newGame = new MajiangGame();
@@ -42,6 +42,7 @@ public class GameCmdServiceImpl extends CmdServiceBase implements GameCmdService
 		newGame.setQuzhongfabai(quzhongfabai);
 		newGame.setZhuaniao(zhuaniao);
 		newGame.setNiaoshu(niaoshu);
+		newGame.setQingyise(qingyise);
 
 		newGame.setVotePlayersFilter(new OnlineVotePlayersFilter());
 

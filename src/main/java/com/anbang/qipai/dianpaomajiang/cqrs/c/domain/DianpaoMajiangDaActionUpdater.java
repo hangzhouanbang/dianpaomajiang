@@ -65,12 +65,15 @@ public class DianpaoMajiangDaActionUpdater implements MajiangPlayerDaActionUpdat
 				xiajiaPlayer.tryGangdachuAndGenerateCandidateAction(daAction.getActionPlayerId(), daAction.getPai());
 				if (!canNotHuPlayers.contains(xiajiaPlayer.getId()) && dianpao) {
 					// 点炮胡
+					DianpaoMajiangPanResultBuilder dianpaoMajiangPanResultBuilder = (DianpaoMajiangPanResultBuilder) ju
+							.getCurrentPanResultBuilder();
+					boolean qingyise = dianpaoMajiangPanResultBuilder.isQingyise();
 					GouXingPanHu gouXingPanHu = ju.getGouXingPanHu();
 					// 先把这张牌放入计算器
 					xiajiaPlayer.getShoupaiCalculator().addPai(daAction.getPai());
 					DianpaoMajiangHu bestHu = DianpaoMajiangJiesuanCalculator.calculateBestDianpaoHu(
 							couldDihu && !currentPan.getZhuangPlayerId().equals(xiajiaPlayer.getId()), gouXingPanHu,
-							xiajiaPlayer, daAction.getPai());
+							xiajiaPlayer, daAction.getPai(), qingyise);
 					// 再把这张牌拿出计算器
 					xiajiaPlayer.getShoupaiCalculator().removePai(daAction.getPai());
 					if (bestHu != null) {

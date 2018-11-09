@@ -38,6 +38,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 	private boolean dapao;
 	private boolean quzhongfabai;
 	private boolean zhuaniao;
+	private boolean qingyise;
 	private int niaoshu;
 	private int panshu;
 	private int renshu;
@@ -67,6 +68,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		dianpaoMajiangPanResultBuilder.setQuzhongfabai(quzhongfabai);
 		dianpaoMajiangPanResultBuilder.setZhuaniao(zhuaniao);
 		dianpaoMajiangPanResultBuilder.setNiaoshu(niaoshu);
+		dianpaoMajiangPanResultBuilder.setQingyise(qingyise);
 		ju.setCurrentPanResultBuilder(dianpaoMajiangPanResultBuilder);
 
 		ju.setJuFinishiDeterminer(new FixedPanNumbersJuFinishiDeterminer(panshu));
@@ -192,6 +194,14 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 
 	public int getNiaoshu() {
 		return niaoshu;
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
 	}
 
 	public void setNiaoshu(int niaoshu) {

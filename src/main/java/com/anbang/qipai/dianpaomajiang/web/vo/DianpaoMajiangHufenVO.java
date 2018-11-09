@@ -5,6 +5,8 @@ import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.DianpaoMajiangHufen;
 public class DianpaoMajiangHufenVO {
 	private boolean gangshangkaihua;// 杠上开花
 	private boolean qiangganghu;// 抢杠胡
+	private boolean qingyise;// 清一色
+	private boolean hunyise;// 混一色
 	private boolean wuhuxing;// 三财神无胡型
 	private boolean pengpenghu;// 碰碰胡
 	private boolean danzhangdiao;// 单张吊
@@ -33,6 +35,8 @@ public class DianpaoMajiangHufenVO {
 			dihu = true;
 		} else if (hufen.isTianhu()) {
 			tianhu = true;
+		} else if (hufen.isQingyise()) {
+			qingyise = true;
 		} else if (hufen.isSancaishen() && hufen.isZimoHu()) {
 			sancaishen = true;
 		} else if (hufen.isDanzhangdiao()) {
@@ -41,6 +45,8 @@ public class DianpaoMajiangHufenVO {
 			pengpenghu = true;
 		} else if (hufen.isWuhuxing()) {
 			wuhuxing = true;
+		} else if (hufen.isHunyise()) {
+			hunyise = true;
 		} else if (hufen.isPengpenghu()) {
 			pengpenghu = true;
 		} else if (hufen.isQiangganghu()) {
@@ -50,6 +56,14 @@ public class DianpaoMajiangHufenVO {
 		} else if (hufen.isGangshangkaihua()) {
 			gangshangkaihua = true;
 		}
+	}
+
+	public boolean isHunyise() {
+		return hunyise;
+	}
+
+	public void setHunyise(boolean hunyise) {
+		this.hunyise = hunyise;
 	}
 
 	public boolean isGangshangkaihua() {
@@ -146,6 +160,14 @@ public class DianpaoMajiangHufenVO {
 
 	public void setScsgk(boolean scsgk) {
 		this.scsgk = scsgk;
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
 	}
 
 }

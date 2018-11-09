@@ -24,7 +24,7 @@ public class DianpaoMajiangJiesuanCalculator {
 
 	// 自摸胡
 	public static DianpaoMajiangHu calculateBestZimoHu(boolean couldTianhu, GouXingPanHu gouXingPanHu,
-			MajiangPlayer player, MajiangMoAction moAction) {
+			MajiangPlayer player, MajiangMoAction moAction, boolean couldQingyise) {
 		ShoupaiCalculator shoupaiCalculator = player.getShoupaiCalculator();
 		List<MajiangPai> guipaiList = player.findGuipaiList();// TODO 也可以用统计器做
 
@@ -47,7 +47,7 @@ public class DianpaoMajiangJiesuanCalculator {
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
 				DianpaoMajiangHufen hufen = calculateHufen(true, true,
 						moAction.getReason().getName().equals(GanghouBupai.name), false, couldTianhu, false,
-						shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
+						couldQingyise, shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 				if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 					bestHuFen = hufen;
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
@@ -61,7 +61,7 @@ public class DianpaoMajiangJiesuanCalculator {
 
 	// 抢杠胡
 	public static DianpaoMajiangHu calculateBestQianggangHu(MajiangPai gangPai, GouXingPanHu gouXingPanHu,
-			MajiangPlayer player) {
+			MajiangPlayer player, boolean couldQingyise) {
 		ShoupaiCalculator shoupaiCalculator = player.getShoupaiCalculator();
 		List<MajiangPai> guipaiList = player.findGuipaiList();// TODO 也可以用统计器做
 		shoupaiCalculator.addPai(gangPai);
@@ -79,7 +79,7 @@ public class DianpaoMajiangJiesuanCalculator {
 				if (isValid(shoupaiPaiXing, false)) {
 					continue;
 				}
-				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, true, false, false,
+				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, true, false, false, couldQingyise,
 						shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 				if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 					bestHuFen = hufen;
@@ -97,7 +97,7 @@ public class DianpaoMajiangJiesuanCalculator {
 
 	// 点炮胡
 	public static DianpaoMajiangHu calculateBestDianpaoHu(boolean couldDihu, GouXingPanHu gouXingPanHu,
-			MajiangPlayer player, MajiangPai hupai) {
+			MajiangPlayer player, MajiangPai hupai, boolean couldQingyise) {
 		ShoupaiCalculator shoupaiCalculator = player.getShoupaiCalculator();
 		List<MajiangPai> guipaiList = player.findGuipaiList();// TODO 也可以用统计器做
 
@@ -115,7 +115,7 @@ public class DianpaoMajiangJiesuanCalculator {
 				if (isValid(shoupaiPaiXing, false)) {
 					continue;
 				}
-				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, false, false, couldDihu,
+				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, false, false, couldDihu, couldQingyise,
 						shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 				if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 					bestHuFen = hufen;
@@ -142,7 +142,7 @@ public class DianpaoMajiangJiesuanCalculator {
 		ShoupaixingWuguanJiesuancanshu shoupaixingWuguanJiesuancanshu = new ShoupaixingWuguanJiesuancanshu(player);
 		DianpaoMajiangHufen bestHuFen = null;
 		for (ShoupaiPaiXing shoupaiPaiXing : shoupaiPaiXingList) {
-			DianpaoMajiangHufen hufen = calculateHufen(false, false, false, false, false, false,
+			DianpaoMajiangHufen hufen = calculateHufen(false, false, false, false, false, false, false,
 					shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
 			if (bestHuFen == null || bestHuFen.getValue() < hufen.getValue()) {
 				bestHuFen = hufen;
@@ -152,10 +152,12 @@ public class DianpaoMajiangJiesuanCalculator {
 	}
 
 	private static DianpaoMajiangHufen calculateHufen(boolean hu, boolean zimoHu, boolean gangkaiHu,
-			boolean qianggangHu, boolean couldTianhu, boolean couldDihu,
+			boolean qianggangHu, boolean couldTianhu, boolean couldDihu, boolean couldQingyise,
 			ShoupaixingWuguanJiesuancanshu shoupaixingWuguanJiesuancanshu, ShoupaiPaiXing shoupaiPaiXing) {
 		DianpaoMajiangHufen hufen = new DianpaoMajiangHufen();
 		if (hu) {
+			boolean qingyise = shoupaixingWuguanJiesuancanshu.isQingyise();
+			boolean hunyise = shoupaixingWuguanJiesuancanshu.isHunyise();
 			boolean pengpenghu = shoupaiPaiXing.getDuiziList().size() == 1
 					&& shoupaixingWuguanJiesuancanshu.getChichupaiZuCount() == 0 && shoupaiPaiXing.countShunzi() == 0;
 			boolean danzhangdiao = (shoupaixingWuguanJiesuancanshu.getFangruShoupaiCount()
@@ -163,6 +165,12 @@ public class DianpaoMajiangJiesuanCalculator {
 			hufen.setHu(hu);// 普通放炮胡
 			if (zimoHu) {// 自摸胡
 				hufen.setZimoHu(zimoHu);
+			}
+			if (couldQingyise && qingyise) {// 清一色
+				hufen.setQingyise(true);
+			}
+			if (couldQingyise && hunyise) {// 混一色
+				hufen.setHunyise(true);
 			}
 			if (qianggangHu) {// 抢杠胡
 				hufen.setQiangganghu(qianggangHu);

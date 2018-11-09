@@ -14,6 +14,7 @@ public class MajiangGameValueObject extends FixedPlayersMultipanAndVotetofinishG
 	private boolean dapao;
 	private boolean quzhongfabai;
 	private boolean zhuaniao;
+	private boolean qingyise;
 	private int niaoshu;
 	private Map<String, Integer> playeTotalScoreMap = new HashMap<>();
 	private JuResult juResult;
@@ -27,10 +28,19 @@ public class MajiangGameValueObject extends FixedPlayersMultipanAndVotetofinishG
 		quzhongfabai = majiangGame.isQuzhongfabai();
 		zhuaniao = majiangGame.isZhuaniao();
 		niaoshu = majiangGame.getNiaoshu();
+		qingyise = majiangGame.isQingyise();
 		playeTotalScoreMap.putAll(majiangGame.getPlayeTotalScoreMap());
 		if (majiangGame.getJu() != null) {
 			juResult = majiangGame.getJu().getJuResult();
 		}
+	}
+
+	public boolean isQingyise() {
+		return qingyise;
+	}
+
+	public void setQingyise(boolean qingyise) {
+		this.qingyise = qingyise;
 	}
 
 	public int getNiaoshu() {

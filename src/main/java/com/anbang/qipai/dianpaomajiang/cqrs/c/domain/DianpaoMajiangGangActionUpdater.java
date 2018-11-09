@@ -42,7 +42,9 @@ public class DianpaoMajiangGangActionUpdater implements MajiangPlayerGangActionU
 		} else {
 			currentPan.clearAllPlayersActionCandidates();
 			pengGangRecordListener.updateForNextLun();// 清空动作缓存
-
+			DianpaoMajiangPanResultBuilder dianpaoMajiangPanResultBuilder = (DianpaoMajiangPanResultBuilder) ju
+					.getCurrentPanResultBuilder();
+			boolean qingyise = dianpaoMajiangPanResultBuilder.isQingyise();
 			// 看看是不是有其他玩家可以抢杠胡
 			boolean qiangganghu = false;
 			if (gangAction.getGangType().equals(GangType.kezigangmo)
@@ -56,7 +58,7 @@ public class DianpaoMajiangGangActionUpdater implements MajiangPlayerGangActionU
 					}
 
 					DianpaoMajiangHu bestHu = DianpaoMajiangJiesuanCalculator
-							.calculateBestQianggangHu(gangAction.getPai(), gouXingPanHu, xiajia);
+							.calculateBestQianggangHu(gangAction.getPai(), gouXingPanHu, xiajia, qingyise);
 					if (bestHu != null) {
 						bestHu.setQianggang(true);
 						bestHu.setDianpaoPlayerId(player.getId());

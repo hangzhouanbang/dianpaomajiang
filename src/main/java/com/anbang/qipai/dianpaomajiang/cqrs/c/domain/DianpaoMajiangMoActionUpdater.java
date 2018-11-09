@@ -47,8 +47,11 @@ public class DianpaoMajiangMoActionUpdater implements MajiangPlayerMoActionUpdat
 				couldTianhu = true;
 			}
 		}
+		DianpaoMajiangPanResultBuilder dianpaoMajiangPanResultBuilder = (DianpaoMajiangPanResultBuilder) ju
+				.getCurrentPanResultBuilder();
+		boolean qingyise = dianpaoMajiangPanResultBuilder.isQingyise();
 		DianpaoMajiangHu bestHu = DianpaoMajiangJiesuanCalculator.calculateBestZimoHu(couldTianhu, gouXingPanHu, player,
-				moAction);
+				moAction, qingyise);
 		if (bestHu != null) {
 			bestHu.setZimo(true);
 			player.addActionCandidate(new MajiangHuAction(player.getId(), bestHu));
