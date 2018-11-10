@@ -49,7 +49,8 @@ public class DianpaoMajiangGuoActionUpdater implements MajiangPlayerGuoActionUpd
 						}
 					}
 				}
-				if (!guipaiTypeSet.contains(gangmoShoupai) && player.getShoupaiCalculator().count(gangmoShoupai) == 0) {
+				if (!guipaiTypeSet.contains(gangmoShoupai) && MajiangPai.isZipai(gangmoShoupai)
+						&& player.getShoupaiCalculator().count(gangmoShoupai) == 0) {
 					player.addActionCandidate(new MajiangDaAction(player.getId(), gangmoShoupai));
 				}
 			}

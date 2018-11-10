@@ -45,6 +45,9 @@ public class DianpaoMajiangJiesuanCalculator {
 			DianpaoMajiangHufen bestHuFen = null;
 			ShoupaiPaiXing bestHuShoupaiPaiXing = null;
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
+				if (!isValid(shoupaiPaiXing, true)) {
+					continue;
+				}
 				DianpaoMajiangHufen hufen = calculateHufen(true, true,
 						moAction.getReason().getName().equals(GanghouBupai.name), false, couldTianhu, false,
 						couldQingyise, shoupaixingWuguanJiesuancanshu, shoupaiPaiXing);
@@ -76,7 +79,7 @@ public class DianpaoMajiangJiesuanCalculator {
 			DianpaoMajiangHufen bestHuFen = null;
 			ShoupaiPaiXing bestHuShoupaiPaiXing = null;
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
-				if (isValid(shoupaiPaiXing, false)) {
+				if (!isValid(shoupaiPaiXing, false)) {
 					continue;
 				}
 				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, true, false, false, couldQingyise,
@@ -112,7 +115,7 @@ public class DianpaoMajiangJiesuanCalculator {
 			DianpaoMajiangHufen bestHuFen = null;
 			ShoupaiPaiXing bestHuShoupaiPaiXing = null;
 			for (ShoupaiPaiXing shoupaiPaiXing : huPaiShoupaiPaiXingList) {
-				if (isValid(shoupaiPaiXing, false)) {
+				if (!isValid(shoupaiPaiXing, false)) {
 					continue;
 				}
 				DianpaoMajiangHufen hufen = calculateHufen(true, false, false, false, false, couldDihu, couldQingyise,
@@ -455,7 +458,7 @@ public class DianpaoMajiangJiesuanCalculator {
 	 */
 	private static boolean isValid(ShoupaiPaiXing shoupaiPaiXing, boolean zimo) {
 		ShoupaiDuiziZu duizi = shoupaiPaiXing.findDuiziZuHasLastActionPai();
-		if (!duizi.yuanPaiFenZu() && !zimo) {
+		if (duizi != null && !duizi.yuanPaiFenZu() && !zimo) {
 			return false;
 		}
 		List<ShoupaiKeziZu> keziList = shoupaiPaiXing.getKeziList();
