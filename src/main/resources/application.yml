@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/qipai_dianpaomajiang
+      #uri: mongodb://localhost:27017/qipai_dianpaomajiang
       
   cloud:
     stream:
@@ -33,6 +33,16 @@ spring:
                   ms: 5
                 batch:
                   size: 16384
+          memberGoldsAccounting:
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
       bindings:
         dianpaoMajiangGame:
           destination: dianpaoMajiangGame
@@ -41,6 +51,11 @@ spring:
             partitionCount: 1
         dianpaoMajiangResult:
           destination: dianpaoMajiangResult
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        memberGoldsAccounting:
+          destination: memberGoldsAccounting
           contentType: application/json
           producer:
             partitionCount: 1
@@ -53,6 +68,13 @@ spring:
           contentType: application/json
         dianpaoGameRoom:
           destination: dianpaoGameRoom
+          group: qipai-dianpaomajiang
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        memberGolds:
+          destination: memberGolds
           group: qipai-dianpaomajiang
           consumer:
             concurrency: 1
