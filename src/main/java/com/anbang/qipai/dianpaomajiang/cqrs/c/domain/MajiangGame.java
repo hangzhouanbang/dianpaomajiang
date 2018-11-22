@@ -55,7 +55,7 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 		ju.setZhuangDeterminerForNextPan(new MenFengDongZhuangDeterminer());
 
 		ju.setAvaliablePaiFiller(new QuZhongFaRandomAvaliablePaiFiller(currentTime + 2, quzhongfabai));
-		ju.setGuipaiDeterminer(new RandomGuipaiDeterminer());
+		ju.setGuipaiDeterminer(new RandomGuipaiDeterminer(currentTime + 3));
 		ju.setFaPaiStrategy(new DianpaoMajiangFaPaiStrategy(16));
 
 		ju.setCurrentPanFinishiDeterminer(new DianpaoMajiangPanFinishiDeterminer());
