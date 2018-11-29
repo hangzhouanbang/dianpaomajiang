@@ -131,7 +131,9 @@ public class MajiangGame extends FixedPlayersMultipanAndVotetofinishGame {
 
 	@Override
 	public void finish() throws Exception {
-		ju.finish();
+		if (ju != null) {
+			ju.finish();
+		}
 	}
 
 	@Override
