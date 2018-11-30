@@ -42,6 +42,13 @@ public class DianpaoMajiangPengActionUpdater implements MajiangPlayerPengActionU
 		} else {
 			currentPan.clearAllPlayersActionCandidates();
 			pengGangRecordListener.updateForNextLun();// 清空动作缓存
+
+			// 刻子杠手牌
+			player.tryKezigangshoupaiAndGenerateCandidateAction();
+
+			// 需要有“过”
+			player.checkAndGenerateGuoCandidateAction();
+
 			if (player.getActionCandidates().isEmpty()) {
 				// 啥也不能干，那只能打出牌
 				/*

@@ -88,6 +88,32 @@ public class DianpaoMajiangGuoActionUpdater implements MajiangPlayerGuoActionUpd
 				MajiangPlayer gangPlayer = currentPan.findPlayerById(action.getActionPlayerId());
 				gangPlayer.addActionCandidate(new MajiangMoAction(gangPlayer.getId(), new LundaoMopai()));
 			}
+		} else if (action.getType().equals(MajiangPlayerActionType.peng)) {// 过的是我碰之后的杠
+			MajiangPai gangmoShoupai = player.getGangmoShoupai();
+			// 那要我打牌
+			if (player.getActionCandidates().isEmpty()) {
+				// 啥也不能干，那只能打出牌
+				/*
+				 * 头风：抓牌后，手牌中单独一张的风牌字牌需要优先打出
+				 */
+				List<MajiangPai> fangruShoupaiList = player.getFangruShoupaiList();
+				Set<MajiangPai> guipaiTypeSet = player.getGuipaiTypeSet();
+
+				for (MajiangPai pai : fangruShoupaiList) {
+					if (!guipaiTypeSet.contains(pai) && MajiangPai.isZipai(pai)) {
+						if (!gangmoShoupai.equals(pai) && player.getShoupaiCalculator().count(pai) == 1) {
+							player.addActionCandidate(new MajiangDaAction(player.getId(), pai));
+						}
+					}
+				}
+				if (!guipaiTypeSet.contains(gangmoShoupai) && MajiangPai.isZipai(gangmoShoupai)
+						&& player.getShoupaiCalculator().count(gangmoShoupai) == 0) {
+					player.addActionCandidate(new MajiangDaAction(player.getId(), gangmoShoupai));
+				}
+			}
+			if (player.getActionCandidates().isEmpty()) {
+				player.generateDaActions();
+			}
 		} else {
 
 		}
