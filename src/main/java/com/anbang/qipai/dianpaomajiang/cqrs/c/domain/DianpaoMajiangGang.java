@@ -25,6 +25,8 @@ public class DianpaoMajiangGang {
 
 				MajiangPai.ertiao, MajiangPai.santiao, MajiangPai.sitiao, MajiangPai.wutiao, MajiangPai.liutiao,
 				MajiangPai.qitiao, MajiangPai.batiao };
+		MajiangPai[] zipaipaiArray = new MajiangPai[] { MajiangPai.dongfeng, MajiangPai.nanfeng, MajiangPai.xifeng,
+				MajiangPai.beifeng, MajiangPai.hongzhong, MajiangPai.facai, MajiangPai.baiban };
 		zimoMingGangShu = 0;
 		fangGangmingGangShu = 0;
 		anGangShu = 0;
@@ -51,6 +53,19 @@ public class DianpaoMajiangGang {
 			}
 			if (player.ifGangchu(erbapaiArray[i], GangType.shoupaigangmo)
 					|| player.ifGangchu(erbapaiArray[i], GangType.gangsigeshoupai)) {
+				anGangShu++;
+			}
+		}
+		for (int i = 0; i < zipaipaiArray.length; i++) {
+			if (player.ifGangchu(zipaipaiArray[i], GangType.gangdachu)) {
+				fangGangmingGangShu++;
+			}
+			if (player.ifGangchu(zipaipaiArray[i], GangType.kezigangmo)
+					|| player.ifGangchu(zipaipaiArray[i], GangType.kezigangshoupai)) {
+				zimoMingGangShu++;
+			}
+			if (player.ifGangchu(zipaipaiArray[i], GangType.shoupaigangmo)
+					|| player.ifGangchu(zipaipaiArray[i], GangType.gangsigeshoupai)) {
 				anGangShu++;
 			}
 		}

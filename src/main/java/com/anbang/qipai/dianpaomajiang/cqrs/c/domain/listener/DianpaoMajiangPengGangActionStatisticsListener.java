@@ -66,6 +66,25 @@ public class DianpaoMajiangPengGangActionStatisticsListener
 						|| xiajia.getId().equals(dachupaiPlayer.getId()))) {
 					tongpeiCount += 2;
 				}
+			} else if (gangAction.getGangType().equals(GangType.kezigangshoupai)) {
+				String dachupaiPlayerId = gangAction.getDachupaiPlayerId();
+				if (dachupaiPlayerId != null) {
+					if (playerIdFangGangShuMap.containsKey(dachupaiPlayerId)) {
+						Integer count = playerIdFangGangShuMap.get(dachupaiPlayerId) + 1;
+						playerIdFangGangShuMap.put(dachupaiPlayerId, count);
+					} else {
+						playerIdFangGangShuMap.put(dachupaiPlayerId, 1);
+					}
+					MajiangPlayer dachupaiPlayer = currentPan.findPlayerById(gangAction.getDachupaiPlayerId());
+					MajiangPlayer zhuangPlayer = currentPan.findPlayerByMenFeng(MajiangPosition.dong);
+					MajiangPlayer shangjia = currentPan.findShangjia(zhuangPlayer);
+					MajiangPlayer xiajia = currentPan.findXiajia(zhuangPlayer);
+					// 如果上家杠庄家或者下家,通赔计数加2
+					if (shangjia.getId().equals(player.getId()) && (zhuangPlayer.getId().equals(dachupaiPlayer.getId())
+							|| xiajia.getId().equals(dachupaiPlayer.getId()))) {
+						tongpeiCount += 2;
+					}
+				}
 			}
 		}
 	}
