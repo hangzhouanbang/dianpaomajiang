@@ -27,6 +27,7 @@ import com.anbang.qipai.dianpaomajiang.msg.msjobj.MajiangHistoricalJuResult;
 import com.anbang.qipai.dianpaomajiang.msg.service.DianpaoMajiangGameMsgService;
 import com.anbang.qipai.dianpaomajiang.msg.service.DianpaoMajiangResultMsgService;
 import com.anbang.qipai.dianpaomajiang.msg.service.MemberGoldsMsgService;
+import com.anbang.qipai.dianpaomajiang.msg.service.WiseCrackMsgServcie;
 import com.anbang.qipai.dianpaomajiang.plan.bean.MemberGoldBalance;
 import com.anbang.qipai.dianpaomajiang.plan.bean.PlayerInfo;
 import com.anbang.qipai.dianpaomajiang.plan.service.MemberGoldBalanceService;
@@ -80,6 +81,9 @@ public class GameController {
 
 	@Autowired
 	private PlayerInfoService playerInfoService;
+
+	@Autowired
+	private WiseCrackMsgServcie wiseCrackMsgServcie;
 
 	/**
 	 * 新一局游戏
@@ -564,6 +568,7 @@ public class GameController {
 					wsNotifier.notifyToListenWisecrack(otherPlayer.getPlayerId(), ordinal, playerId);
 				}
 			}
+			wiseCrackMsgServcie.wisecrack(playerId);
 			vo.setSuccess(true);
 			return vo;
 		}
@@ -576,6 +581,7 @@ public class GameController {
 					wsNotifier.notifyToListenWisecrack(otherPlayer.getPlayerId(), ordinal, playerId);
 				}
 			}
+			wiseCrackMsgServcie.wisecrack(playerId);
 			vo.setSuccess(true);
 			return vo;
 		}
