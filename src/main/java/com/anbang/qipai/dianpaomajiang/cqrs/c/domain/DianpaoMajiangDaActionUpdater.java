@@ -50,15 +50,27 @@ public class DianpaoMajiangDaActionUpdater implements MajiangPlayerDaActionUpdat
 				.findListener(GuoPengBuPengStatisticsListener.class);
 
 		Set<String> canNotHuPlayers = guoHuBuHuStatisticsListener.getCanNotHuPlayers();
-		Map<String, MajiangPai> canNotPengPlayersPaiMap = guoPengBuPengStatisticsListener.getCanNotPengPlayersPaiMap();
+		Map<String, List<MajiangPai>> canNotPengPlayersPaiMap = guoPengBuPengStatisticsListener
+				.getCanNotPengPlayersPaiMap();
 
 		while (true) {
 			if (!xiajiaPlayer.getId().equals(daAction.getActionPlayerId())) {
 				// 其他的可以碰杠胡
 				List<MajiangPai> fangruShoupaiList = xiajiaPlayer.getFangruShoupaiList();
 				if (fangruShoupaiList.size() != 2) {
-					if (!canNotPengPlayersPaiMap.containsKey(xiajiaPlayer.getId())
-							|| !canNotPengPlayersPaiMap.get(xiajiaPlayer.getId()).equals(daAction.getPai())) {
+					boolean canPeng = true;// 可以碰
+					if (canNotPengPlayersPaiMap.containsKey(xiajiaPlayer.getId())) {
+						List<MajiangPai> canNotPengPaiList = canNotPengPlayersPaiMap.get(xiajiaPlayer.getId());
+						if (canNotPengPaiList != null && !canNotPengPaiList.isEmpty()) {
+							for (MajiangPai pai : canNotPengPaiList) {
+								if (pai.equals(daAction.getPai())) {
+									canPeng = false;
+									break;
+								}
+							}
+						}
+					}
+					if (canPeng) {
 						xiajiaPlayer.tryPengAndGenerateCandidateAction(daAction.getActionPlayerId(), daAction.getPai());
 					}
 				}
