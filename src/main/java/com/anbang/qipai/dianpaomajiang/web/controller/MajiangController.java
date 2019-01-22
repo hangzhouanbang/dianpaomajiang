@@ -62,7 +62,7 @@ public class MajiangController {
 
 	/**
 	 * 当前盘我应该看到的所有信息
-	 * 
+	 * 行牌的通知
 	 * @param token
 	 * @return
 	 */
@@ -126,7 +126,7 @@ public class MajiangController {
 
 	/**
 	 * 麻将行牌
-	 * 
+	 * 出牌
 	 * @param token
 	 * @param id
 	 * @return

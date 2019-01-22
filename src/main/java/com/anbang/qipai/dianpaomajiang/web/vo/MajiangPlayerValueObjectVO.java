@@ -18,12 +18,14 @@ public class MajiangPlayerValueObjectVO {
 	 * 门风
 	 */
 	private MajiangPosition menFeng;
+	//剩下的
 	private FangruShoupaiListVO fangruShoupaiList;
 	/**
 	 * 公开的牌，不能行牌
 	 */
 	private List<MajiangPai> publicPaiList;
 
+	//可作的动作
 	private List<MajiangPlayerAction> actionCandidates;
 
 	/**
