@@ -106,6 +106,26 @@ public class GameController {
 	}
 
 	/**
+	 * 新一局游戏
+	 */
+	@RequestMapping(value = "/newgame_xiuxianchang")
+	@ResponseBody
+	public CommonVO newgameForXiuxianchang(String playerId, int panshu, int renshu, boolean dianpao, boolean dapao,
+			boolean quzhongfabai, boolean zhuaniao, int niaoshu, boolean qingyise) {
+		CommonVO vo = new CommonVO();
+		String newGameId = UUID.randomUUID().toString();
+		MajiangGameValueObject majiangGameValueObject = gameCmdService.newMajiangGameForXiuxianchang(newGameId,
+				playerId, panshu, renshu, dianpao, dapao, quzhongfabai, zhuaniao, niaoshu, qingyise);
+		majiangGameQueryService.newMajiangGame(majiangGameValueObject);
+		String token = playerAuthService.newSessionForPlayer(playerId);
+		Map data = new HashMap();
+		data.put("gameId", newGameId);
+		data.put("token", token);
+		vo.setData(data);
+		return vo;
+	}
+
+	/**
 	 * 加入游戏
 	 */
 	@RequestMapping(value = "/joingame")

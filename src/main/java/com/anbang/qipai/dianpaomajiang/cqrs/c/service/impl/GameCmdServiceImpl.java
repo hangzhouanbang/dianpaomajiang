@@ -21,6 +21,7 @@ import com.dml.mpgame.game.join.FixedNumberOfPlayersGameJoinStrategy;
 import com.dml.mpgame.game.leave.HostGameLeaveStrategy;
 import com.dml.mpgame.game.leave.OfflineAndNotReadyGameLeaveStrategy;
 import com.dml.mpgame.game.leave.OfflineGameLeaveStrategy;
+import com.dml.mpgame.game.leave.PlayerGameLeaveStrategy;
 import com.dml.mpgame.game.player.PlayerFinished;
 import com.dml.mpgame.game.ready.FixedNumberOfPlayersGameReadyStrategy;
 import com.dml.mpgame.server.GameServer;
@@ -57,6 +58,44 @@ public class GameCmdServiceImpl extends CmdServiceBase implements GameCmdService
 
 		newGame.setLeaveByPlayerStrategyAfterStart(new OfflineGameLeaveStrategy());
 		newGame.setLeaveByPlayerStrategyBeforeStart(new HostGameLeaveStrategy(playerId));
+
+		newGame.setBackStrategy(new OnlineGameBackStrategy());
+		newGame.create(gameId, playerId);
+		gameServer.playerCreateGame(newGame, playerId);
+
+		return new MajiangGameValueObject(newGame);
+	}
+
+	@Override
+	public MajiangGameValueObject newMajiangGameForXiuxianchang(String gameId, String playerId, Integer panshu,
+			Integer renshu, Boolean dianpao, Boolean dapao, Boolean quzhongfabai, Boolean zhuaniao, Integer niaoshu,
+			Boolean qingyise) {
+		GameServer gameServer = singletonEntityRepository.getEntity(GameServer.class);
+
+		MajiangGame newGame = new MajiangGame();
+		newGame.setPanshu(panshu);
+		newGame.setRenshu(renshu);
+		newGame.setFixedPlayerCount(renshu);
+		newGame.setDianpao(dianpao);
+		newGame.setDapao(dapao);
+		newGame.setQuzhongfabai(quzhongfabai);
+		newGame.setZhuaniao(zhuaniao);
+		newGame.setNiaoshu(niaoshu);
+		newGame.setQingyise(qingyise);
+
+		newGame.setVotePlayersFilter(new OnlineVotePlayersFilter());
+
+		newGame.setJoinStrategy(new FixedNumberOfPlayersGameJoinStrategy(renshu));
+		newGame.setReadyStrategy(new FixedNumberOfPlayersGameReadyStrategy(renshu));
+
+		newGame.setLeaveByOfflineStrategyAfterStart(new OfflineGameLeaveStrategy());
+		newGame.setLeaveByOfflineStrategyBeforeStart(new OfflineAndNotReadyGameLeaveStrategy());
+
+		newGame.setLeaveByHangupStrategyAfterStart(new OfflineGameLeaveStrategy());
+		newGame.setLeaveByHangupStrategyBeforeStart(new OfflineAndNotReadyGameLeaveStrategy());
+
+		newGame.setLeaveByPlayerStrategyAfterStart(new OfflineGameLeaveStrategy());
+		newGame.setLeaveByPlayerStrategyBeforeStart(new PlayerGameLeaveStrategy());
 
 		newGame.setBackStrategy(new OnlineGameBackStrategy());
 		newGame.create(gameId, playerId);

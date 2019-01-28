@@ -38,6 +38,27 @@ public class DisruptorGameCmdService extends DisruptorCmdServiceBase implements 
 	}
 
 	@Override
+	public MajiangGameValueObject newMajiangGameForXiuxianchang(String gameId, String playerId, Integer panshu,
+			Integer renshu, Boolean dianpao, Boolean dapao, Boolean quzhongfabai, Boolean zhuaniao, Integer niaoshu,
+			Boolean qingyise) {
+		CommonCommand cmd = new CommonCommand(GameCmdServiceImpl.class.getName(), "newMajiangGameForXiuxianchang",
+				gameId, playerId, panshu, renshu, dianpao, dapao, quzhongfabai, zhuaniao, niaoshu, qingyise);
+		DeferredResult<MajiangGameValueObject> result = publishEvent(disruptorFactory.getCoreCmdDisruptor(), cmd,
+				() -> {
+					MajiangGameValueObject majiangGameValueObject = gameCmdServiceImpl.newMajiangGameForXiuxianchang(
+							cmd.getParameter(), cmd.getParameter(), cmd.getParameter(), cmd.getParameter(),
+							cmd.getParameter(), cmd.getParameter(), cmd.getParameter(), cmd.getParameter(),
+							cmd.getParameter(), cmd.getParameter());
+					return majiangGameValueObject;
+				});
+		try {
+			return result.getResult();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public MajiangGameValueObject joinGame(String playerId, String gameId) throws Exception {
 		CommonCommand cmd = new CommonCommand(GameCmdServiceImpl.class.getName(), "joinGame", playerId, gameId);
 		DeferredResult<MajiangGameValueObject> result = publishEvent(disruptorFactory.getCoreCmdDisruptor(), cmd,
