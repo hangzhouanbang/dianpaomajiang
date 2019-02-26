@@ -9,14 +9,11 @@ import java.util.Set;
 
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.listener.DianpaoMajiangPengGangActionStatisticsListener;
 import com.dml.majiang.ju.Ju;
-import com.dml.majiang.pai.fenzu.Kezi;
 import com.dml.majiang.pan.Pan;
 import com.dml.majiang.pan.frame.PanValueObject;
 import com.dml.majiang.pan.result.CurrentPanResultBuilder;
 import com.dml.majiang.pan.result.PanResult;
 import com.dml.majiang.player.MajiangPlayer;
-import com.dml.majiang.player.chupaizu.GangchuPaiZu;
-import com.dml.majiang.player.chupaizu.PengchuPaiZu;
 
 public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 
@@ -101,14 +98,6 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 							fangGangCount = 0;
 						}
 						DianpaoMajiangGang gang = new DianpaoMajiangGang(buHuplayer);
-						if (huPlayers.get(0).getHu().isQianggang()) {
-							List<GangchuPaiZu> gangchupaiZuList = buHuplayer.getGangchupaiZuList();
-							GangchuPaiZu gangChuPaiZu = gangchupaiZuList.remove(gangchupaiZuList.size() - 1);
-							PengchuPaiZu pengChuPaiZu = new PengchuPaiZu(
-									new Kezi(gangChuPaiZu.getGangzi().getPaiType()), null, buHuplayer.getId());
-							buHuplayer.getPengchupaiZuList().add(pengChuPaiZu);
-							gang.setZimoMingGangShu(gang.getZimoMingGangShu() - 1);// 被抢的杠不算杠分
-						}
 						gang.calculate(playerIdList.size(), fangGangCount);
 						buHuPlayerResult.setGang(gang);
 						// 计算炮分
@@ -331,12 +320,6 @@ public class DianpaoMajiangPanResultBuilder implements CurrentPanResultBuilder {
 							fangGangCount1 = 0;
 						}
 						DianpaoMajiangGang gang1 = new DianpaoMajiangGang(buHuplayer);
-						gang1.setZimoMingGangShu(gang1.getZimoMingGangShu() - 1);// 被抢的杠不算杠分
-						List<GangchuPaiZu> gangchupaiZuList = buHuplayer.getGangchupaiZuList();
-						GangchuPaiZu gangChuPaiZu = gangchupaiZuList.remove(gangchupaiZuList.size() - 1);
-						PengchuPaiZu pengChuPaiZu = new PengchuPaiZu(new Kezi(gangChuPaiZu.getGangzi().getPaiType()),
-								null, buHuplayer.getId());
-						buHuplayer.getPengchupaiZuList().add(pengChuPaiZu);
 						gang1.calculate(playerIdList.size(), fangGangCount1);
 						buHuPlayerResult.setGang(gang1);
 						// 计算炮分
