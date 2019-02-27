@@ -56,6 +56,9 @@ public class DianpaoMajiangJiesuanCalculator {
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
 				}
 			}
+			if (bestHuFen == null || bestHuShoupaiPaiXing == null) {
+				return null;
+			}
 			return new DianpaoMajiangHu(bestHuShoupaiPaiXing, bestHuFen);
 		} else {// 不成胡
 			return null;
@@ -89,7 +92,7 @@ public class DianpaoMajiangJiesuanCalculator {
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
 				}
 			}
-			if (bestHuFen == null) {
+			if (bestHuFen == null || bestHuShoupaiPaiXing == null) {
 				return null;
 			}
 			return new DianpaoMajiangHu(bestHuShoupaiPaiXing, bestHuFen);
@@ -125,7 +128,7 @@ public class DianpaoMajiangJiesuanCalculator {
 					bestHuShoupaiPaiXing = shoupaiPaiXing;
 				}
 			}
-			if (bestHuFen == null) {
+			if (bestHuFen == null || bestHuShoupaiPaiXing == null) {
 				return null;
 			}
 			return new DianpaoMajiangHu(bestHuShoupaiPaiXing, bestHuFen);
