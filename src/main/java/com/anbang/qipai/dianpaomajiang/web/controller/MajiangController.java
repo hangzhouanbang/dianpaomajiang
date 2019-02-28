@@ -61,8 +61,8 @@ public class MajiangController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * 当前盘我应该看到的所有信息
-	 * 行牌的通知
+	 * 当前盘我应该看到的所有信息 行牌的通知
+	 * 
 	 * @param token
 	 * @return
 	 */
@@ -125,15 +125,15 @@ public class MajiangController {
 	}
 
 	/**
-	 * 麻将行牌
-	 * 出牌
+	 * 麻将行牌 出牌
+	 * 
 	 * @param token
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/action")
 	@ResponseBody
-	public CommonVO action(String token, int id) {
+	public CommonVO action(String token, int id, int actionNo) {
 		long startTime = System.currentTimeMillis();
 		CommonVO vo = new CommonVO();
 		Map data = new HashMap();
@@ -153,7 +153,7 @@ public class MajiangController {
 
 		MajiangActionResult majiangActionResult;
 		try {
-			majiangActionResult = majiangPlayCmdService.action(playerId, id, System.currentTimeMillis());
+			majiangActionResult = majiangPlayCmdService.action(playerId, id, actionNo, System.currentTimeMillis());
 		} catch (Exception e) {
 			vo.setSuccess(false);
 			vo.setMsg(e.getClass().getName());
