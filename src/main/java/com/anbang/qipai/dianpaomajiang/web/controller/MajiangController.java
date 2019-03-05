@@ -201,6 +201,7 @@ public class MajiangController {
 			} else {
 				queryScopes.add(QueryScope.panResult.name());
 				queryScopes.add(QueryScope.gameInfo.name());
+				endFlag = WatchQueryScope.panResult.name();
 			}
 			PanResultDbo panResultDbo = majiangPlayQueryService.findPanResultDbo(gameId,
 					majiangActionResult.getPanResult().getPan().getNo());
