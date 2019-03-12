@@ -166,8 +166,7 @@ public class DianpaoMajiangJiesuanCalculator {
 			boolean hunyise = shoupaixingWuguanJiesuancanshu.isHunyise();
 			boolean pengpenghu = shoupaiPaiXing.getDuiziList().size() == 1
 					&& shoupaixingWuguanJiesuancanshu.getChichupaiZuCount() == 0 && shoupaiPaiXing.countShunzi() == 0;
-			boolean danzhangdiao = (shoupaixingWuguanJiesuancanshu.getFangruShoupaiCount()
-					+ shoupaixingWuguanJiesuancanshu.getCaishenShu() == 1);
+			boolean danzhangdiao = shoupaixingWuguanJiesuancanshu.getFangruShoupaiCount() == 1;
 			hufen.setHu(hu);// 普通放炮胡
 			if (zimoHu) {// 自摸胡
 				hufen.setZimoHu(zimoHu);

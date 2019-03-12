@@ -24,7 +24,7 @@ public class ShoupaixingWuguanJiesuancanshu {
 		hunyise = (allXushupaiInSameCategory && hasZipai);
 		caishenShu = player.countGuipai();
 		chichupaiZuCount = player.countChichupaiZu();
-		fangruShoupaiCount = player.getFangruShoupaiList().size();
+		fangruShoupaiCount = player.countAllFangruShoupai();
 	}
 
 	public boolean isHunyise() {
