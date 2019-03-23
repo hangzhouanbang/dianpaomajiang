@@ -165,7 +165,6 @@ public class MajiangGameQueryService {
 			return record;
 		}
 
-		watchRecord.getWatchers().add(watcher);
 		for (Watcher list : watchRecord.getWatchers()) {
 			if (list.getId().equals(watcher.getId())) {
 				list.setState(watcher.getState());
@@ -179,8 +178,11 @@ public class MajiangGameQueryService {
 		return watchRecord;
 	}
 
+	/**
+	 * 查询观战中的玩家
+	 */
 	public boolean findByPlayerId(String gameId, String playerId) {
-		if (watchRecordDao.findByPlayerId(gameId, playerId) != null) {
+		if (watchRecordDao.findByPlayerId(gameId, playerId, "join") != null) {
 			return true;
 		}
 		return false;
