@@ -1,8 +1,10 @@
 package com.anbang.qipai.dianpaomajiang.cqrs.q.dbo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.MajiangGameValueObject;
 import com.anbang.qipai.dianpaomajiang.plan.bean.PlayerInfo;
@@ -22,6 +24,7 @@ public class MajiangGameDbo {
 	private int panNo;
 	private GameState state;// 原来是 waitingStart, playing, waitingNextPan, finished
 	private List<MajiangGamePlayerDbo> players;
+	private Set<String> xipaiPlayerIds;
 
 	public MajiangGameDbo() {
 	}
@@ -38,7 +41,7 @@ public class MajiangGameDbo {
 		niaoshu = majiangGame.getNiaoshu();
 		panNo = majiangGame.getPanNo();
 		state = majiangGame.getState();
-
+		xipaiPlayerIds = new HashSet<>(majiangGame.getXipaiPlayerIds());
 		players = new ArrayList<>();
 		Map<String, Integer> playeTotalScoreMap = majiangGame.getPlayeTotalScoreMap();
 		for (GamePlayerValueObject playerValueObject : majiangGame.getPlayers()) {
@@ -66,6 +69,14 @@ public class MajiangGameDbo {
 			}
 		}
 		return null;
+	}
+
+	public Set<String> getXipaiPlayerIds() {
+		return xipaiPlayerIds;
+	}
+
+	public void setXipaiPlayerIds(Set<String> xipaiPlayerIds) {
+		this.xipaiPlayerIds = xipaiPlayerIds;
 	}
 
 	public boolean isQingyise() {

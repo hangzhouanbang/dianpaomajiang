@@ -2,6 +2,7 @@ package com.anbang.qipai.dianpaomajiang.web.vo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGameDbo;
 import com.dml.mpgame.game.Canceled;
@@ -26,6 +27,7 @@ public class GameVO {
 	private boolean qingyise;
 	private int niaoshu;
 	private List<MajiangGamePlayerVO> playerList;
+	private Set<String> xipaiPlayerIds;
 	private String state;// 原来是 waitingStart, playing, waitingNextPan, finished
 
 	public GameVO(MajiangGameDbo majiangGameDbo) {
@@ -38,6 +40,7 @@ public class GameVO {
 		quzhongfabai = majiangGameDbo.isQuzhongfabai();
 		zhuaniao = majiangGameDbo.isZhuaniao();
 		niaoshu = majiangGameDbo.getNiaoshu();
+		xipaiPlayerIds = majiangGameDbo.getXipaiPlayerIds();
 		playerList = new ArrayList<>();
 		majiangGameDbo.getPlayers().forEach((dbo) -> playerList.add(new MajiangGamePlayerVO(dbo)));
 		String sn = majiangGameDbo.getState().name();
@@ -63,6 +66,14 @@ public class GameVO {
 			state = "waitingStart";
 		} else {
 		}
+	}
+
+	public Set<String> getXipaiPlayerIds() {
+		return xipaiPlayerIds;
+	}
+
+	public void setXipaiPlayerIds(Set<String> xipaiPlayerIds) {
+		this.xipaiPlayerIds = xipaiPlayerIds;
 	}
 
 	public int getNiaoshu() {
