@@ -9,9 +9,17 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.dianpaomajiang.cqrs.c.domain.MajiangGameValueObject;
 import com.anbang.qipai.dianpaomajiang.cqrs.c.service.GameCmdService;
+import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.JuResultDbo;
+import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGameDbo;
+import com.anbang.qipai.dianpaomajiang.cqrs.q.dbo.MajiangGamePlayerDbo;
 import com.anbang.qipai.dianpaomajiang.cqrs.q.service.MajiangGameQueryService;
+import com.anbang.qipai.dianpaomajiang.cqrs.q.service.MajiangPlayQueryService;
 import com.anbang.qipai.dianpaomajiang.msg.channel.GameRoomSink;
 import com.anbang.qipai.dianpaomajiang.msg.msjobj.CommonMO;
+import com.anbang.qipai.dianpaomajiang.msg.msjobj.MajiangHistoricalJuResult;
+import com.anbang.qipai.dianpaomajiang.msg.service.DianpaoMajiangGameMsgService;
+import com.anbang.qipai.dianpaomajiang.msg.service.DianpaoMajiangResultMsgService;
+import com.dml.mpgame.game.player.GamePlayerOnlineState;
 import com.google.gson.Gson;
 
 @EnableBinding(GameRoomSink.class)
@@ -23,6 +31,15 @@ public class GameRoomMsgReceiver {
 	@Autowired
 	private MajiangGameQueryService majiangGameQueryService;
 
+	@Autowired
+	private MajiangPlayQueryService majiangPlayQueryService;
+
+	@Autowired
+	private DianpaoMajiangResultMsgService dianpaoMajiangResultMsgService;
+
+	@Autowired
+	private DianpaoMajiangGameMsgService dianpaoMajiangGameMsgService;
+
 	private Gson gson = new Gson();
 
 	@StreamListener(GameRoomSink.DIANPAOGAMEROOM)
@@ -32,11 +49,26 @@ public class GameRoomMsgReceiver {
 		if ("gameIds".equals(msg)) {
 			List<String> gameIds = gson.fromJson(json, ArrayList.class);
 			for (String gameId : gameIds) {
-				MajiangGameValueObject gameValueObject;
 				try {
-					gameValueObject = gameCmdService.finishGameImmediately(gameId);
-					majiangGameQueryService.finishGameImmediately(gameValueObject);
-				} catch (Exception e) {
+					MajiangGameDbo majiangGameDbo = majiangGameQueryService.findMajiangGameDboById(gameId);
+					boolean playerOnline = false;
+					for (MajiangGamePlayerDbo player : majiangGameDbo.getPlayers()) {
+						if (GamePlayerOnlineState.online.equals(player.getOnlineState())) {
+							playerOnline = true;
+						}
+					}
+					if (playerOnline) {
+						dianpaoMajiangGameMsgService.delay(gameId);
+					} else {
+						MajiangGameValueObject gameValueObject = gameCmdService.finishGameImmediately(gameId);
+						majiangGameQueryService.finishGameImmediately(gameValueObject);
+						JuResultDbo juResultDbo = majiangPlayQueryService.findJuResultDbo(gameId);
+						MajiangHistoricalJuResult juResult = new MajiangHistoricalJuResult(juResultDbo, majiangGameDbo);
+						dianpaoMajiangResultMsgService.recordJuResult(juResult);
+						dianpaoMajiangGameMsgService.gameFinished(gameId);
+					}
+				} catch (Throwable e) {
+					e.printStackTrace();
 				}
 			}
 		}

@@ -81,4 +81,13 @@ public class DianpaoMajiangGameMsgService {
 		mo.setData(data);
 		dianpaoMajiangGameSource.dianpaoMajiangGame().send(MessageBuilder.withPayload(mo).build());
 	}
+
+	public void delay(String gameId) {
+		CommonMO mo = new CommonMO();
+		mo.setMsg("game delay");
+		Map data = new HashMap();
+		data.put("gameId", gameId);
+		mo.setData(data);
+		dianpaoMajiangGameSource.dianpaoMajiangGame().send(MessageBuilder.withPayload(mo).build());
+	}
 }
